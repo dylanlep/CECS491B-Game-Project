@@ -15,18 +15,22 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2026.0.0.16",
+    "IDEVersion":"2024.14.4.222",
   },
   "name":"CECS 491B Binary Brains Project",
   "resources":[
     {"id":{"name":"obj_block","path":"objects/obj_block/obj_block.yy",},},
     {"id":{"name":"obj_game","path":"objects/obj_game/obj_game.yy",},},
+    {"id":{"name":"obj_login","path":"objects/obj_login/obj_login.yy",},},
     {"id":{"name":"rm_lesson","path":"rooms/rm_lesson/rm_lesson.yy",},},
+    {"id":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"id":{"name":"scr_setup_lesson","path":"scripts/scr_setup_lesson/scr_setup_lesson.yy",},},
+    {"id":{"name":"scr_submit_login_form","path":"scripts/scr_submit_login_form/scr_submit_login_form.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
+    {"roomId":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"roomId":{"name":"rm_lesson","path":"rooms/rm_lesson/rm_lesson.yy",},},
   ],
   "templateType":"game",
