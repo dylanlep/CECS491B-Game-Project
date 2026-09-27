@@ -31,8 +31,29 @@ function scr_submit_login_form(){
 	    // sending global.pending_username / global.pending_password. Handle
 	    // the async "HTTP" event on whatever object makes the request to read
 	    // the server's response.
+		
+		var login_map = ds_map_create();
+		ds_map_add(login_map, "email", username_string);
+		ds_map_add(login_map, "password", password_string);
+		var json_body = json_encode(login_map);
+		ds_map_destroy(login_map);
+		
+		var http_headers = ds_map_create();
+		ds_map_add(http_headers, "Content-Type", "application/json");
+		ds_map_add(http_headers, "apikey", supabase_publishable_key);
+		ds_map_add(http_headers, "Authorization", "Bearer " + supabase_publishable_key);
+		
+		if (mode == MODE_LOGIN) {
+			message_text = "Logging in";
+			supabase_http_request = http_request(login_url, "POST", http_headers, json_body);
+		} else {
+			message_text = "Making new account";
+			supabase_http_request = http_request(register_url, "POST", http_headers, json_body);
+		}
+		
+		ds_map_destroy(http_headers);
 
-	    message_text = "Submitted! (not yet connected to a server)";
+	    //message_text = "Submitted! (not yet connected to a server)";
 	}
 
 }

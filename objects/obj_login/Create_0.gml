@@ -32,3 +32,13 @@ submit_x2 = room_width/2 + 90;
 submit_y2 = 455;
 
 max_field_length = 32;
+
+// ----- Supabase Connection -----
+var base_url = "https://pwodiopbnnngkfwqpjrg.supabase.co";
+
+login_url = base_url + "/auth/v1/token?grant_type=password";
+register_url = base_url + "/auth/v1/signup";
+
+supabase_publishable_key = "sb_publishable_hri5mZ3bBR-n9bHt8wC_dQ_HRE5CaEU";
+
+supabase_http_request = -1;
