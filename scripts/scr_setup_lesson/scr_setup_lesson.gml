@@ -7,75 +7,99 @@
 
 function scr_setup_lesson() {
 
-    with (obj_block) {
-        instance_destroy();
-    }
+	    with (obj_block) {
+	    instance_destroy();
+	}
 
-    correct_answer = lesson_tokens[current_lesson];
-    word_count = array_length(correct_answer);
+	draw_set_font(fnt_pixel); // needed here so string_width() below is accurate
 
-    // --- Answer slot layout ---
-    // slot_width shrinks to fit however many tokens this lesson has, so the
-    // row of slots never runs off the edges of the room. 200 is just a cap
-    // so slots don't get silly-wide on a short 3-4 token lesson.
-    var margin        = 40;
-    var max_slot_width = 200;
+	correct_answer = lesson_tokens[current_lesson];
+	word_count = array_length(correct_answer);
 
-    slot_height  = 70;
-    slot_spacing = 12;
-    slot_y       = 260;
+	// =====================================================================
+	// PART 1 — lay out the answer slots (always in correct order, empty)
+	// =====================================================================
 
-    var raw_width = floor((room_width - margin - (word_count - 1) * slot_spacing) / word_count);
-    slot_width = min(max_slot_width, raw_width);
+	var sx = side_margin;
+	var sy = slot_area_y_start;
 
-    var total_w = word_count * (slot_width + slot_spacing) - slot_spacing;
-    var start_x = (room_width - total_w) / 2;
+	for (var i = 0; i < word_count; i++) {
+	    var w = string_width(correct_answer[i]) + chip_padding;
 
-    // slot_center_x[i] / slot_center_y are the fixed anchor points each slot
-    // keeps forever. Both the placeholder outline (when empty) and whatever
-    // chip snaps in (when full) are centered on these same points, so nothing
-    // ever looks off-center regardless of how wide the chip is.
-    slot_center_y = slot_y + slot_height / 2;
+	    if (sx + w > room_width - side_margin) {
+	        sx = side_margin;
+	        sy += row_height + row_spacing;
+	    }
 
-    for (var i = 0; i < word_count; i++) {
-        slot_x[i] = start_x + i * (slot_width + slot_spacing);
-        slot_center_x[i] = slot_x[i] + slot_width / 2;
-        slot_occupant[i] = noone;
-    }
+	    slot_x[i]        = sx;
+	    slot_y_row[i]     = sy;
+	    slot_w[i]         = w;
+	    slot_occupant[i]  = noone;
 
-    // --- Shuffle token order for the bank ---
-    var order[0];
-    for (var i = 0; i < word_count; i++) {
-        order[i] = i;
-    }
-    for (var i = word_count - 1; i > 0; i--) {
-        var j = irandom(i);
-        var tmp = order[i];
-        order[i] = order[j];
-        order[j] = tmp;
-    }
+	    sx += w + chip_spacing;
+	}
 
-    // --- Spawn a chip per token ---
-    var bank_y = 460;
-    var bx = 60;
+	slot_height = row_height; // every slot/chip shares the same height
+	var slot_area_bottom = sy + row_height;
 
-    for (var i = 0; i < word_count; i++) {
-        var idx  = order[i];
-        var word = correct_answer[idx];
-        var w    = max(90, string_width(word) + 30);
+	// =====================================================================
+	// PART 2 — shuffle the bank order, then lay out bank chips (wrapping)
+	// =====================================================================
 
-        var inst = instance_create_layer(bx, bank_y, "Instances", obj_block);
-        inst.word_text    = word;
-        inst.correct_index = idx;
-        inst.block_width  = w;
-        inst.block_height = 70;
-        inst.home_x       = bx;
-        inst.home_y       = bank_y;
-        inst.current_slot = -1;
+	var order[0];
+	for (var i = 0; i < word_count; i++) {
+	    order[i] = i;
+	}
+	for (var i = word_count - 1; i > 0; i--) {
+	    var j = irandom(i);
+	    var tmp = order[i];
+	    order[i] = order[j];
+	    order[j] = tmp;
+	}
 
-        bx += w + 20;
-    }
+	var bank_y_start = slot_area_bottom + 8;
+	var bx = side_margin;
+	var by = bank_y_start;
 
-    feedback_text  = "";
-    feedback_timer = 0;
+	for (var i = 0; i < word_count; i++) {
+	    var idx  = order[i];
+	    var word = correct_answer[idx];
+	    var w    = string_width(word) + chip_padding;
+
+	    if (bx + w > room_width - side_margin) {
+	        bx = side_margin;
+	        by += row_height + row_spacing;
+	    }
+
+	    var inst = instance_create_layer(bx, by, "Instances", obj_block);
+	    inst.word_text      = word;
+	    inst.correct_index  = idx;
+	    inst.block_width    = w;
+	    inst.block_height   = row_height;
+	    inst.home_x         = bx;
+	    inst.home_y         = by;
+	    inst.current_slot   = -1;
+	    inst.token_category = scr_classify_token(word);
+	    inst.base_color     = scr_get_token_color(inst.token_category);
+
+	    bx += w + chip_spacing;
+	}
+
+	var bank_area_bottom = by + row_height;
+
+	// =====================================================================
+	// PART 3 — position the Check button and feedback text below everything
+	// =====================================================================
+
+	check_btn_width  = 60;
+	check_btn_height = 16;
+	check_btn_x1 = (room_width - check_btn_width) / 2;
+	check_btn_y1 = bank_area_bottom + 8;
+	check_btn_x2 = check_btn_x1 + check_btn_width;
+	check_btn_y2 = check_btn_y1 + check_btn_height;
+
+	feedback_y = check_btn_y2 + 10;
+
+	feedback_text  = "";
+	feedback_timer = 0;
 }

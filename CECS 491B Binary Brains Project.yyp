@@ -19,7 +19,10 @@
   },
   "name":"CECS 491B Binary Brains Project",
   "resources":[
+
     {"id":{"name":"ext_google_login","path":"extensions/ext_google_login/ext_google_login.yy",},},
+
+    {"id":{"name":"fnt_pixel","path":"fonts/fnt_pixel/fnt_pixel.yy",},},
     {"id":{"name":"obj_block","path":"objects/obj_block/obj_block.yy",},},
     {"id":{"name":"obj_game","path":"objects/obj_game/obj_game.yy",},},
     {"id":{"name":"obj_google_login_button","path":"objects/obj_google_login_button/obj_google_login_button.yy",},},
@@ -28,8 +31,13 @@
     {"id":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"id":{"name":"scr_google_login","path":"scripts/scr_google_login/scr_google_login.yy",},},
     {"id":{"name":"scr_logout","path":"scripts/scr_logout/scr_logout.yy",},},
+    {"id":{"name":"scr_classify_token","path":"scripts/scr_classify_token/scr_classify_token.yy",},},
+    {"id":{"name":"scr_get_token_color","path":"scripts/scr_get_token_color/scr_get_token_color.yy",},},
+    {"id":{"name":"scr_layout_login_fields","path":"scripts/scr_layout_login_fields/scr_layout_login_fields.yy",},},
     {"id":{"name":"scr_setup_lesson","path":"scripts/scr_setup_lesson/scr_setup_lesson.yy",},},
     {"id":{"name":"scr_submit_login_form","path":"scripts/scr_submit_login_form/scr_submit_login_form.yy",},},
+    {"id":{"name":"spr_ui_box_focus","path":"sprites/spr_ui_box_focus/spr_ui_box_focus.yy",},},
+    {"id":{"name":"spr_ui_box","path":"sprites/spr_ui_box/spr_ui_box.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",

@@ -3,11 +3,11 @@
 if (feedback_timer > 0) {
     feedback_timer -= 1;
     if (feedback_timer <= 0) feedback_text = "";
-} 
+}
 
 if (mouse_check_button_pressed(mb_left)) {
 
-    // --- Language buttons ---
+    // --- Language tabs ---
     for (var i = 0; i < lesson_count; i++) {
         var bx1 = lang_button_x[i];
         var by1 = lang_button_y;
@@ -21,12 +21,9 @@ if (mouse_check_button_pressed(mb_left)) {
     }
 
     // --- Check button ---
-    var cx1 = room_width/2 - 70;
-    var cy1 = 560;
-    var cx2 = room_width/2 + 70;
-    var cy2 = 605;
+    if (mouse_x >= check_btn_x1 && mouse_x <= check_btn_x2
+    && mouse_y >= check_btn_y1 && mouse_y <= check_btn_y2) {
 
-    if (mouse_x >= cx1 && mouse_x <= cx2 && mouse_y >= cy1 && mouse_y <= cy2) {
         var all_filled  = true;
         var all_correct = true;
 
@@ -39,12 +36,12 @@ if (mouse_check_button_pressed(mb_left)) {
         }
 
         if (!all_filled) {
-            feedback_text = "Fill in all the blocks first!";
+            feedback_text = "Fill in all blocks!";
         } else if (all_correct) {
-            feedback_text = "Correct! Great job!";
+            feedback_text = "Correct!";
         } else {
-            feedback_text = "Not quite — try again.";
+            feedback_text = "Try again.";
         }
-        feedback_timer = 90; // ~1.5 sec at 60fps
+        feedback_timer = 90;
     }
 }
