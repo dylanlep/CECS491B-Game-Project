@@ -1,20 +1,19 @@
 /// obj_google_login_button - Draw
 
-// Button
-draw_set_color(c_white);
-draw_rectangle(btn_x1, btn_y1, btn_x2, btn_y2, false);
-draw_set_color(c_black);
-draw_rectangle(btn_x1, btn_y1, btn_x2, btn_y2, true);
+draw_set_font(fnt_pixel);
 
-// Label
+// Button: same box sprite as the LOG IN button
+draw_sprite_stretched(spr_ui_box, 0, btn_x1, btn_y1, btn_width, btn_height);
+
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
-draw_text((btn_x1 + btn_x2) / 2, (btn_y1 + btn_y2) / 2, "Sign in with Google");
+draw_set_color(c_white);
+draw_text((btn_x1 + btn_x2) / 2, (btn_y1 + btn_y2) / 2, "SIGN IN WITH GOOGLE");
 
-// Status / error message
+// Message under the button
 if (message_text != "") {
-    draw_set_color(c_red);
-    draw_text(room_width / 2, btn_y2 + 30, message_text);
+    draw_set_color(message_color);
+    draw_text(room_width / 2, btn_y2 + 9, message_text);
 }
 
 // Reset so other objects aren't affected

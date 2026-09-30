@@ -35,7 +35,8 @@ function google_login_check_return() {
 
     if (_error != "") {
         _result.status  = "error";
-        _result.message = "Google sign-in failed: " + _error;
+           _result.message = "GOOGLE SIGN-IN FAILED";
+   show_debug_message("Google sign-in error: " + _error);
         return _result;
     }
 
