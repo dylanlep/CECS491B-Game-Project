@@ -67,3 +67,6 @@ Cache/
 Backup/
 Output/
 tmp/
+
+.idea/
+*.resource_order
