@@ -25,6 +25,7 @@
     {"id":{"name":"obj_game","path":"objects/obj_game/obj_game.yy",},},
     {"id":{"name":"obj_google_login_button","path":"objects/obj_google_login_button/obj_google_login_button.yy",},},
     {"id":{"name":"obj_login","path":"objects/obj_login/obj_login.yy",},},
+    {"id":{"name":"obj_logout_button","path":"objects/obj_logout_button/obj_logout_button.yy",},},
     {"id":{"name":"rm_lesson","path":"rooms/rm_lesson/rm_lesson.yy",},},
     {"id":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"id":{"name":"scr_classify_token","path":"scripts/scr_classify_token/scr_classify_token.yy",},},
