@@ -5,34 +5,41 @@ function scr_submit_login_form(){
 	/// Validates the form and stores the submitted strings for whoever
 	/// wires up the actual server call.
 
+	/// scr_submit_login_form
+/// Validates the visible fields and stores them for the networking side.
+
 	with (obj_login) {
 
-	    if (username_string == "" || password_string == "") {
-	        message_text = "Please fill in both fields.";
-	        exit;
+	    if (mode == MODE_REGISTER) {
+	        if (username_string == "" || email_string == "" || password_string == "") {
+	            message_text = "Please fill in all fields.";
+	            exit;
+	        }
+	        if (string_length(password_string) < 6) {
+	            message_text = "Password must be at least 6 characters.";
+	            exit;
+	        }
+	    } else {
+	        if (email_string == "" || password_string == "") {
+	            message_text = "Please fill in both fields.";
+	            exit;
+	        }
 	    }
 
-	    if (mode == MODE_REGISTER && string_length(password_string) < 6) {
-	        message_text = "Password must be at least 6 characters.";
-	        exit;
-	    }
-
-	    // Store what was entered so any other object (or a networking script)
-	    // can read it. global.* is visible from anywhere in the project.
-	    global.pending_username = username_string;
+	    global.pending_username = username_string; // only meaningful in Register mode
+	    global.pending_email    = email_string;
 	    global.pending_password = password_string;
 	    global.pending_mode     = (mode == MODE_LOGIN) ? "login" : "register";
 
 	    show_debug_message("Form submitted -> mode: " + global.pending_mode
-	        + ", username: " + global.pending_username);
+	        + ", email: " + global.pending_email);
 
-	    // TODO (networking teammate): replace this debug message with a real
-	    // http_request() call to your backend's /login or /register endpoint,
-	    // sending global.pending_username / global.pending_password. Handle
-	    // the async "HTTP" event on whatever object makes the request to read
-	    // the server's response.
+	    // TODO (networking teammate): call scr_login_user(global.pending_email, global.pending_password)
+	    // for login, or scr_register_user(global.pending_username, global.pending_email, global.pending_password)
+	    // for register — both already exist on account_registration and return an async_id to
+	    // match against the Async - HTTP event.
 
-	    message_text = "Submitted! (not yet connected to a server)";
+	    message_text = "Submitted,but not registered yet";
 	}
 
 }

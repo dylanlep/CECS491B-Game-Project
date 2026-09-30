@@ -1,45 +1,45 @@
 /// obj_login - Draw Event
 
+draw_set_font(fnt_pixel);
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
 draw_set_color(c_white);
-draw_text(room_width/2, 140, (mode == MODE_LOGIN) ? "Log In" : "Create Account");
+draw_text(room_width/2, 40, (mode == MODE_LOGIN) ? "LOG IN" : "REGISTER");
 
-// Username field
-draw_set_color((active_field == FIELD_USERNAME) ? c_yellow : c_white);
-draw_rectangle(username_box_x, username_box_y, username_box_x + field_width, username_box_y + field_height, true);
+if (show_username) {
+    var user_box_spr = (active_field == FIELD_USERNAME) ? spr_ui_box_focus : spr_ui_box;
+    draw_sprite_stretched(user_box_spr, 0, username_box_x, username_box_y, field_width, field_height);
+    draw_set_halign(fa_left);
+    draw_text(username_box_x + 4, username_box_y + field_height/2,
+        (username_string == "") ? "NAME" : username_string);
+}
+
+var email_box_spr = (active_field == FIELD_EMAIL) ? spr_ui_box_focus : spr_ui_box;
+draw_sprite_stretched(email_box_spr, 0, email_box_x, email_box_y, field_width, field_height);
 draw_set_halign(fa_left);
-draw_text(username_box_x + 10, username_box_y + field_height/2,
-    (username_string == "") ? "Username" : username_string);
+draw_text(email_box_x + 4, email_box_y + field_height/2,
+    (email_string == "") ? "EMAIL" : email_string);
 
-// Password field (masked)
+var pass_box_spr = (active_field == FIELD_PASSWORD) ? spr_ui_box_focus : spr_ui_box;
+draw_sprite_stretched(pass_box_spr, 0, password_box_x, password_box_y, field_width, field_height);
 var masked = string_repeat("*", string_length(password_string));
-draw_set_color((active_field == FIELD_PASSWORD) ? c_yellow : c_white);
-draw_rectangle(password_box_x, password_box_y, password_box_x + field_width, password_box_y + field_height, true);
-draw_text(password_box_x + 10, password_box_y + field_height/2,
-    (password_string == "") ? "Password" : masked);
+draw_text(password_box_x + 4, password_box_y + field_height/2,
+    (password_string == "") ? "PASS" : masked);
 
-// Submit button
 draw_set_halign(fa_center);
-draw_set_color(c_green);
-draw_rectangle(submit_x1, submit_y1, submit_x2, submit_y2, false);
-draw_set_color(c_black);
-draw_rectangle(submit_x1, submit_y1, submit_x2, submit_y2, true);
+draw_sprite_stretched(spr_ui_box, 0, submit_x1, submit_y1, submit_width, submit_height);
 draw_set_color(c_white);
 draw_text((submit_x1 + submit_x2) / 2, (submit_y1 + submit_y2) / 2,
-    (mode == MODE_LOGIN) ? "Log In" : "Register");
+    (mode == MODE_LOGIN) ? "LOG IN" : "REGISTER");
 
-// Toggle link
-var toggle_y1 = submit_y2 + 30;
 draw_set_color(c_aqua);
-draw_text(room_width/2, toggle_y1 + 15,
-    (mode == MODE_LOGIN) ? "Don't have an account? Register" : "Already have an account? Log in");
+draw_text(room_width/2, toggle_y,
+    (mode == MODE_LOGIN) ? "NO ACCOUNT? REGISTER" : "HAVE ACCOUNT? LOG IN");
 
-// Feedback message
 if (message_text != "") {
     draw_set_color(c_red);
-    draw_text(room_width/2, toggle_y1 + 60, message_text);
+    draw_text(room_width/2, feedback_y, message_text);
 }
 
 draw_set_halign(fa_left);
