@@ -1,7 +1,7 @@
 function js_google_login_start(supabase_url)
 {
     var here = window.location.origin+ window.location.pathname;
-    window.location.href =supabase_url + "/auth/v1/authorize?provider=google&redirect_to=" + encodeURIComponent(here);
+    window.location.href =supabase_url + "/auth/v1/authorize?provider=google&prompt=select_account&redirect_to=" + encodeURIComponent(here);
     return 1;
 
 }

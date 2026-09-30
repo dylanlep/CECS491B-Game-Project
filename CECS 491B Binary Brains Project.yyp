@@ -27,6 +27,7 @@
     {"id":{"name":"rm_lesson","path":"rooms/rm_lesson/rm_lesson.yy",},},
     {"id":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"id":{"name":"scr_google_login","path":"scripts/scr_google_login/scr_google_login.yy",},},
+    {"id":{"name":"scr_logout","path":"scripts/scr_logout/scr_logout.yy",},},
     {"id":{"name":"scr_setup_lesson","path":"scripts/scr_setup_lesson/scr_setup_lesson.yy",},},
     {"id":{"name":"scr_submit_login_form","path":"scripts/scr_submit_login_form/scr_submit_login_form.yy",},},
   ],
