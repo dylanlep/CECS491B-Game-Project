@@ -10,8 +10,8 @@
   "name":"obj_block",
   "overriddenProperties":[],
   "parent":{
-    "name":"CECS 491B Binary Brains Project",
-    "path":"CECS 491B Binary Brains Project.yyp",
+    "name":"CECS491B-Game-Project-rebuilt",
+    "path":"CECS491B-Game-Project-rebuilt.yyp",
   },
   "parentObjectId":null,
   "persistent":false,

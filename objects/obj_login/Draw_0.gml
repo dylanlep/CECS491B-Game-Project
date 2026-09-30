@@ -6,12 +6,20 @@ draw_set_valign(fa_middle);
 draw_set_color(c_white);
 draw_text(room_width/2, 140, (mode == MODE_LOGIN) ? "Log In" : "Create Account");
 
-// Username field
-draw_set_color((active_field == FIELD_USERNAME) ? c_yellow : c_white);
-draw_rectangle(username_box_x, username_box_y, username_box_x + field_width, username_box_y + field_height, true);
+// Email field
+draw_set_color((active_field == FIELD_EMAIL) ? c_yellow : c_white);
+draw_rectangle(email_box_x, email_box_y, email_box_x + field_width, email_box_y + field_height, true);
 draw_set_halign(fa_left);
-draw_text(username_box_x + 10, username_box_y + field_height/2,
-    (username_string == "") ? "Username" : username_string);
+draw_text(email_box_x + 10, email_box_y + field_height/2,
+    (email_string == "") ? "Email Address" : email_string);
+	
+// Username field
+if (mode == MODE_REGISTER) {
+    draw_set_color((active_field == FIELD_USERNAME) ? c_yellow : c_white);
+    draw_rectangle(username_box_x, username_box_y, username_box_x + field_width, username_box_y + field_height, true);
+    draw_text(username_box_x + 10, username_box_y + field_height/2,
+        (username_string == "") ? "Username" : username_string);
+}
 
 // Password field (masked)
 var masked = string_repeat("*", string_length(password_string));

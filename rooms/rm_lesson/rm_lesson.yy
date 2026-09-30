@@ -19,8 +19,8 @@
   ],
   "name":"rm_lesson",
   "parent":{
-    "name":"CECS 491B Binary Brains Project",
-    "path":"CECS 491B Binary Brains Project.yyp",
+    "name":"CECS491B-Game-Project-rebuilt",
+    "path":"CECS491B-Game-Project-rebuilt.yyp",
   },
   "parentRoom":null,
   "physicsSettings":{

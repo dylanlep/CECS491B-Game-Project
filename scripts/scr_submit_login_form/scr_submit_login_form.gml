@@ -1,38 +1,45 @@
-// Script assets have changed for v2.3.0 see
-// https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function scr_submit_login_form(){
-	/// scr_submit_login_form
-	/// Validates the form and stores the submitted strings for whoever
-	/// wires up the actual server call.
+/// scr_submit_login_form()
+function scr_submit_login_form() {
+    with (obj_login) {
+        if (is_loading) exit; // Prevent submitting while waiting on HTTP request
+        
+        if (mode == MODE_REGISTER) {
+            // Validate Username length client-side first
+            var _clean_user = string_trim(username_string);
+            var _user_len = string_length(_clean_user);
 
-	with (obj_login) {
+            if (_user_len < 3 || _user_len > 20) {
+                message_color = c_red;
+                message_text = "Username must be between 3 and 20 characters.";
+                exit;
+            }
 
-	    if (username_string == "" || password_string == "") {
-	        message_text = "Please fill in both fields.";
-	        exit;
-	    }
+            // Call Supabase registration script
+            var _res = scr_register_user(_clean_user, email_string, password_string);
 
-	    if (mode == MODE_REGISTER && string_length(password_string) < 6) {
-	        message_text = "Password must be at least 6 characters.";
-	        exit;
-	    }
+            if (_res.success) {
+                current_request_id = _res.async_id;
+                is_loading = true;
+                message_color = c_yellow;
+                message_text = "Creating account...";
+            } else {
+                message_color = c_red;
+                message_text = _res.message;
+            }
+        } 
+        else if (mode == MODE_LOGIN) {
+            // Call Supabase login script
+            var _res = scr_login_user(email_string, password_string);
 
-	    // Store what was entered so any other object (or a networking script)
-	    // can read it. global.* is visible from anywhere in the project.
-	    global.pending_username = username_string;
-	    global.pending_password = password_string;
-	    global.pending_mode     = (mode == MODE_LOGIN) ? "login" : "register";
-
-	    show_debug_message("Form submitted -> mode: " + global.pending_mode
-	        + ", username: " + global.pending_username);
-
-	    // TODO (networking teammate): replace this debug message with a real
-	    // http_request() call to your backend's /login or /register endpoint,
-	    // sending global.pending_username / global.pending_password. Handle
-	    // the async "HTTP" event on whatever object makes the request to read
-	    // the server's response.
-
-	    message_text = "Submitted! (not yet connected to a server)";
-	}
-
+            if (_res.success) {
+                current_request_id = _res.async_id;
+                is_loading = true;
+                message_color = c_yellow;
+                message_text = "Authenticating...";
+            } else {
+                message_color = c_red;
+                message_text = _res.message;
+            }
+        }
+    }
 }
