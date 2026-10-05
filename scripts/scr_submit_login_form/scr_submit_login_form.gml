@@ -16,7 +16,7 @@ function scr_submit_login_form(){
 	            exit;
 	        }
 	        if (string_length(password_string) < 6) {
-	            message_text = "Password must be at least 6 characters.";
+	            message_text = "Password must have 6+ characters.";
 	            exit;
 	        }
 	    } else {
