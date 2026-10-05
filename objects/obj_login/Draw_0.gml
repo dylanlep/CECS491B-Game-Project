@@ -44,9 +44,9 @@ draw_set_color(c_aqua);
 draw_text(room_width/2, toggle_y1 + 15,
     (mode == MODE_LOGIN) ? "Don't have an account? Register" : "Already have an account? Log in");
 
-// Feedback message
+// Feedback message (UPDATED: Now uses message_color)
 if (message_text != "") {
-    draw_set_color(c_red);
+    draw_set_color(message_color);
     draw_text(room_width/2, toggle_y1 + 60, message_text);
 }
 
