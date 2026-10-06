@@ -6,6 +6,11 @@
 /// calling instance's self.
 
 function scr_setup_lesson() {
+	//Language menu connection
+	if (!variable_global_exists("current_lesson_language") || global.current_lesson_language == "None") {
+    global.current_lesson_language = obj_game.lesson_names[obj_game.current_lesson];
+}
+	
 
     with (obj_block) {
         instance_destroy();

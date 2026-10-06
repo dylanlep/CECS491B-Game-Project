@@ -22,6 +22,7 @@
     {"id":{"name":"obj_block","path":"objects/obj_block/obj_block.yy",},},
     {"id":{"name":"obj_game","path":"objects/obj_game/obj_game.yy",},},
     {"id":{"name":"obj_login","path":"objects/obj_login/obj_login.yy",},},
+    {"id":{"name":"obj_settings_menu","path":"objects/obj_settings_menu/obj_settings_menu.yy",},},
     {"id":{"name":"rm_lesson","path":"rooms/rm_lesson/rm_lesson.yy",},},
     {"id":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"id":{"name":"scr_setup_lesson","path":"scripts/scr_setup_lesson/scr_setup_lesson.yy",},},

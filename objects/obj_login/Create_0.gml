@@ -42,3 +42,6 @@ register_url = base_url + "/auth/v1/signup";
 supabase_publishable_key = "sb_publishable_hri5mZ3bBR-n9bHt8wC_dQ_HRE5CaEU";
 
 supabase_http_request = -1;
+
+//-----wip menu focus----
+global.menu_focus = "login";

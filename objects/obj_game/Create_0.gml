@@ -18,12 +18,27 @@ lang_button_height  = 50;
 lang_button_spacing = 20;
 lang_button_y       = 110;
 
+
+// -------- Connection to Language menu ---------
 var total_w = lesson_count * (lang_button_width + lang_button_spacing) - lang_button_spacing;
 var start_x = (room_width - total_w) / 2;
 
 for (var i = 0; i < lesson_count; i++) {
     lang_button_x[i] = start_x + i * (lang_button_width + lang_button_spacing);
 }
+
+if (variable_global_exists("current_lesson_language") && global.current_lesson_language != "None") {
+    for (var i = 0; i < lesson_count; i++) {
+        if (lesson_names[i] == global.current_lesson_language) {
+            current_lesson = i;
+            break;
+        }
+    }
+} else {
+    //default to C
+    current_lesson = 1;
+}
+
 
 // ---------- Build the first lesson ----------
 scr_setup_lesson();
