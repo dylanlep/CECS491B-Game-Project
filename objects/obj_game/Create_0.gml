@@ -36,5 +36,21 @@ side_margin  = 10;  // left/right margin for both the slot area and bank area
 
 slot_area_y_start = lang_button_y + lang_button_height + 8;
 
+
+
+
+// ---------- Score (XP), one per language, like Duolingo ----------
+language_scores[0] = 0;
+language_scores[1] = 0;
+language_scores[2] = 0;
+
+base_xp          = 10; // XP for a perfect first-try correct answer
+mistake_penalty  = 2;  // XP lost per wrong Check attempt before getting it right
+min_xp           = 2;  // floor — a messy correct answer still earns something
+
+mistake_count = 0; // wrong Check presses on the CURRENT round only
+
+
+
 // ---------- Build the first lesson ----------
 scr_setup_lesson();

@@ -36,8 +36,8 @@
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
-    {"roomId":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"roomId":{"name":"rm_lesson","path":"rooms/rm_lesson/rm_lesson.yy",},},
+    {"roomId":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
   ],
   "templateType":"game",
   "TextureGroups":[

@@ -1,6 +1,13 @@
 /// obj_game - Draw Event
 
 draw_set_font(fnt_pixel);
+
+// XP / score display — own alignment, drawn first
+draw_set_halign(fa_right);
+draw_set_valign(fa_top);
+draw_set_color(c_white);
+draw_text(room_width - 4, 4, "XP: " + string(language_scores[current_lesson]));
+
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
