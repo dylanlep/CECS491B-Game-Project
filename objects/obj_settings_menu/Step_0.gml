@@ -7,23 +7,47 @@ var accept_key = 0;
 
 
 if (mouse_check_button_pressed(mb_left)) {
-    if (mouse_x >= x && mouse_x <= x + width &&
-        mouse_y >= y && mouse_y <= y + height) {
-        
-        global.menu_focus = "language";
+    
+	//var clicking_button = position_meeting(mouse_x, mouse_y, id);
+	
+	if (!is_open && position_meeting(mouse_x, mouse_y, id)) {
+        is_open = true;
+		//visible = false;
+		
+        global.menu_focus = "language"; 
+        menu_level = 0;
+        pos = 0;
         with(obj_login) { active_field = -1; }
-    }
+        
+	}
+	
+	else if (is_open) {
+		var menu_x1 = x;
+        var menu_y1 = y + sprite_height + 5;
+		
+		if (mouse_x >= x && mouse_x <= x + width &&
+	        mouse_y >= y && mouse_y <= y + height) {
+        
+	        global.menu_focus = "language";
+	        with(obj_login) { active_field = -1; }
+		}
+	}
+	
+	
 }
 
 
-if (global.menu_focus == "language") {
+if (is_open && global.menu_focus == "language") {
     up_key = keyboard_check_pressed(vk_up)
     down_key = keyboard_check_pressed(vk_down)
 	accept_key = keyboard_check_pressed(vk_space);
-} else {
-    up_key = 0;
-    down_key = 0;
-	accept_key = 0;
+	
+	if (keyboard_check_pressed(vk_escape)) {
+        is_open = false;
+        //visible = true;
+		global.menu_focus = "login";
+	}
+		
 }
 
 
@@ -46,6 +70,14 @@ switch(menu_level) {
 				menu_level = 4;
 				pos = 0;
 				break;
+				
+			//Close the menu
+			case 2:
+				is_open = false;
+                visible = true;
+                global.menu_focus = "login";
+                pos = 0;
+                break;
 			
 		}
 		break;

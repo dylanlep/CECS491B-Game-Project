@@ -1,4 +1,8 @@
 
+//hamburger icon menu
+is_open = false;
+
+
 width = 200;
 height = 104;
 op_border = 8;
@@ -7,7 +11,7 @@ op_space = 16;
 //general settings...
 option[0, 0] = "Language Lessons";
 option[0, 1] = "Difficulty";
-
+option[0, 2] = "Close Menu";
 
 //language settings menu
 option[1, 0] = "Add/Remove Language";

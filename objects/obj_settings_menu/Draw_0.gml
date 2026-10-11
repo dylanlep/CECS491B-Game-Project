@@ -1,6 +1,15 @@
 //Menu background
-draw_self();
+//draw_self();
 
+
+if (!is_open) {
+	draw_self();
+    exit;
+}
+
+
+var menu_draw_x = x;
+var menu_draw_y = y;
 
 //for formatting checkboxes...
 var max_text_width = 0;

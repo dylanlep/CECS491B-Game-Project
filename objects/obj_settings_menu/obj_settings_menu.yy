@@ -14,7 +14,7 @@
     "path":"CECS 491B Binary Brains Project.yyp",
   },
   "parentObjectId":null,
-  "persistent":false,
+  "persistent":true,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
   "physicsFriction":0.2,
@@ -31,7 +31,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"Sprite1",
+    "path":"sprites/Sprite1/Sprite1.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

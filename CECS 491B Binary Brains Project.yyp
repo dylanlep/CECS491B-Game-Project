@@ -27,6 +27,7 @@
     {"id":{"name":"rm_login","path":"rooms/rm_login/rm_login.yy",},},
     {"id":{"name":"scr_setup_lesson","path":"scripts/scr_setup_lesson/scr_setup_lesson.yy",},},
     {"id":{"name":"scr_submit_login_form","path":"scripts/scr_submit_login_form/scr_submit_login_form.yy",},},
+    {"id":{"name":"Sprite1","path":"sprites/Sprite1/Sprite1.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",
