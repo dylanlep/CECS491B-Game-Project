@@ -8,8 +8,8 @@
 
 /// Returns the saved token, or "" if nobody is logged in.
 function logout_get_token() {
-    if (variable_global_exists("access_token") && is_string(global.access_token)) {
-        return global.access_token;
+    if (variable_global_exists("supabase_access_token") && is_string(global.supabase_access_token)) {
+        return global.supabase_access_token;
     }
     return "";
 }
@@ -33,7 +33,8 @@ function logout_send_request() {
 
 /// Erases everything the game remembers about the logged-in player.
 function logout_clear_local_session() {
-    global.access_token  = "";
+    global.supabase_access_token = "";
+    global.email         = "";   // shown on the profile screen
     global.refresh_token = "";
     global.user_id       = "";
     global.auth_token    = "";   // older name used on em_branch; harmless to clear

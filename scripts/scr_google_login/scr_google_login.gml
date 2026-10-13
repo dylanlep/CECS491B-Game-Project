@@ -41,7 +41,7 @@ function google_login_check_return() {
     }
 
     // Success: save the tokens where the rest of the game can use them.
-    global.access_token    = _token;
+    global.supabase_access_token    = _token;
     global.refresh_token = _refresh;
 
     _result.status  = "success";
