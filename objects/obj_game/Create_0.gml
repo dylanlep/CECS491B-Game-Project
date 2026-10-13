@@ -2,6 +2,16 @@
 
 gpu_set_texfilter(false); // crisp pixel scaling, no blur
 
+// ---------- Account settings ----------
+account_open = false;
+account_active_field = 0; // 0 = none, 1 = email, 2 = password
+account_email_input = "";
+account_password_input = "";
+account_message = "";
+account_request_id = -1;
+account_busy = false;
+account_pending_email_change = false;
+
 // ---------- Lesson data for each language ----------
 lesson_tokens[0] = ["print", "(", "\"Hello, world!\"", ")", ";"];              // Python
 lesson_tokens[1] = ["printf", "(", "\"Hello, world!\"", ")", ";"];             // C

@@ -34,12 +34,15 @@ draw_text((submit_x1 + submit_x2) / 2, (submit_y1 + submit_y2) / 2,
     (mode == MODE_LOGIN) ? "LOG IN" : "REGISTER");
 
 draw_set_color(c_aqua);
+if (mode == MODE_LOGIN) {
+    draw_text(room_width/2, submit_y2 + 8, "FORGOT PASSWORD?");
+}
 draw_text(room_width/2, toggle_y,
     (mode == MODE_LOGIN) ? "NO ACCOUNT? REGISTER" : "HAVE ACCOUNT? LOG IN");
 
 if (message_text != "") {
     draw_set_color(c_red);
-    draw_text(room_width/2, feedback_y, message_text);
+    draw_text_ext(room_width/2, feedback_y, message_text, -1, room_width - 16);
 }
 
 draw_set_halign(fa_left);

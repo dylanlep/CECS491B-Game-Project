@@ -1,5 +1,7 @@
 /// obj_block - Step Event
 
+if (instance_exists(obj_game) && obj_game.account_open) exit;
+
 var mx = mouse_x;
 var my = mouse_y;
 
