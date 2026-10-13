@@ -1,69 +1,45 @@
+/// scr_submit_login_form()
 function scr_submit_login_form() {
     with (obj_login) {
+        if (is_loading) exit; // Prevent submitting while waiting on HTTP request
 
         if (mode == MODE_REGISTER) {
-            if (username_string == "" || email_string == "" || password_string == "") {
-                message_text = "Please fill in all fields.";
+            // Validate Username length client-side first
+            var _clean_user = string_trim(username_string);
+            var _user_len = string_length(_clean_user);
+
+            if (_user_len < 3 || _user_len > 20) {
+                message_color = c_red;
+                message_text = "Username must be between 3 and 20 characters.";
                 exit;
             }
 
-            if (string_length(password_string) < 8) {
-                message_text = "Password must be at least 8 characters.";
-                exit;
-            }
-        } else {
-            if (email_string == "" || password_string == "") {
-                message_text = "Please fill in both fields.";
-                exit;
-            }
-        }
+            // Call Supabase registration script
+            var _res = scr_register_user(_clean_user, email_string, password_string);
 
-        if (mode == MODE_REGISTER) {
-            if (username_string == "" || email_string == "" || password_string == "") {
-                message_text = "Please fill in all fields.";
-                exit;
-            }
-
-            if (string_length(password_string) < 6) {
-                message_text = "Password must have 6+ characters.";
-                exit;
-            }
-        } else {
-            if (email_string == "" || password_string == "") {
-                message_text = "Please fill in both fields.";
-                exit;
+            if (_res.success) {
+                current_request_id = _res.async_id;
+                is_loading = true;
+                message_color = c_yellow;
+                message_text = "Creating account...";
+            } else {
+                message_color = c_red;
+                message_text = _res.message;
             }
         }
+        else if (mode == MODE_LOGIN) {
+            // Call Supabase login script
+            var _res = scr_login_user(email_string, password_string);
 
-        var _response;
-
-        if (mode == MODE_LOGIN) {
-            _response = scr_login_user(email_string, password_string);
-        } else {
-            _response = scr_register_user(
-                username_string,
-                email_string,
-                password_string
-            );
+            if (_res.success) {
+                current_request_id = _res.async_id;
+                is_loading = true;
+                message_color = c_yellow;
+                message_text = "Authenticating...";
+            } else {
+                message_color = c_red;
+                message_text = _res.message;
+            }
         }
-
-        if (!_response.success) {
-            message_text = _response.message;
-            exit;
-        }
-
-        global.pending_auth_request_id = _response.async_id;
-        global.pending_auth_mode = (mode == MODE_LOGIN)
-            ? "login"
-            : "register";
-
-        message_text = _response.message;
-
-        show_debug_message(
-            "Supabase request sent. Mode: "
-            + global.pending_auth_mode
-            + ", Request ID: "
-            + string(global.pending_auth_request_id)
-        );
     }
 }

@@ -35,4 +35,7 @@ submit_x2 = submit_x1 + submit_width;
 
 max_field_length = 24; // emails need a bit more room than the old 16
 
+is_loading = false;
+current_request_id = -1;
+
 scr_layout_login_fields();
