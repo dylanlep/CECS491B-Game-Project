@@ -38,4 +38,7 @@ max_field_length = 24; // emails need a bit more room than the old 16
 is_loading = false;
 current_request_id = -1;
 
+global.pending_auth_mode = "";
+global.pending_auth_request_id = -1;
+
 scr_layout_login_fields();
