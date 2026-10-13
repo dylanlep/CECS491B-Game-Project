@@ -2,7 +2,7 @@
 function scr_submit_login_form() {
     with (obj_login) {
         if (is_loading) exit; // Prevent submitting while waiting on HTTP request
-        
+
         if (mode == MODE_REGISTER) {
             // Validate Username length client-side first
             var _clean_user = string_trim(username_string);
@@ -26,7 +26,7 @@ function scr_submit_login_form() {
                 message_color = c_red;
                 message_text = _res.message;
             }
-        } 
+        }
         else if (mode == MODE_LOGIN) {
             // Call Supabase login script
             var _res = scr_login_user(email_string, password_string);
