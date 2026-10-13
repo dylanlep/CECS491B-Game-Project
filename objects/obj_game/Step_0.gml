@@ -3,11 +3,11 @@
 if (feedback_timer > 0) {
     feedback_timer -= 1;
     if (feedback_timer <= 0) feedback_text = "";
-} 
+}
 
 if (mouse_check_button_pressed(mb_left)) {
 
-    // --- Language buttons ---
+    // --- Language tabs ---
     for (var i = 0; i < lesson_count; i++) {
         var bx1 = lang_button_x[i];
         var by1 = lang_button_y;
@@ -21,30 +21,38 @@ if (mouse_check_button_pressed(mb_left)) {
     }
 
     // --- Check button ---
-    var cx1 = room_width/2 - 70;
-    var cy1 = 560;
-    var cx2 = room_width/2 + 70;
-    var cy2 = 605;
+	if (mouse_x >= check_btn_x1 && mouse_x <= check_btn_x2
+	&& mouse_y >= check_btn_y1 && mouse_y <= check_btn_y2) {
 
-    if (mouse_x >= cx1 && mouse_x <= cx2 && mouse_y >= cy1 && mouse_y <= cy2) {
-        var all_filled  = true;
-        var all_correct = true;
+	    var all_filled  = true;
+	    var all_correct = true;
 
-        for (var i = 0; i < word_count; i++) {
-            if (slot_occupant[i] == noone) {
-                all_filled = false;
-            } else if (slot_occupant[i].correct_index != i) {
-                all_correct = false;
-            }
-        }
+	    for (var i = 0; i < word_count; i++) {
+	        if (slot_occupant[i] == noone) {
+	            all_filled = false;
+	        } else if (slot_occupant[i].correct_index != i) {
+	            all_correct = false;
+	        }
+	    }
 
-        if (!all_filled) {
-            feedback_text = "Fill in all the blocks first!";
-        } else if (all_correct) {
-            feedback_text = "Correct! Great job!";
-        } else {
-            feedback_text = "Not quite — try again.";
-        }
-        feedback_timer = 90; // ~1.5 sec at 60fps
-    }
+	    if (!all_filled) {
+	        feedback_text  = "Fill in all blocks!";
+	        feedback_timer = 90;
+
+	    } else if (all_correct) {
+	        var xp_earned = max(min_xp, base_xp - (mistake_count * mistake_penalty));
+	        language_scores[current_lesson] += xp_earned;
+
+	        scr_setup_lesson(); // new shuffled round — also resets mistake_count + feedback
+
+	        // Set AFTER scr_setup_lesson, since that script blanks feedback_text/timer
+	        feedback_text  = "Correct! +" + string(xp_earned) + " XP";
+	        feedback_timer = 90;
+
+	    } else {
+	        mistake_count += 1;
+	        feedback_text  = "Try again.";
+	        feedback_timer = 90;
+	    }
+	}
 }

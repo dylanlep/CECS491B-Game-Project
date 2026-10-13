@@ -1,13 +1,14 @@
 /// obj_login - Create Event
 
-// ---------- Field state ----------
-email_string = "";
+gpu_set_texfilter(false);
+
 username_string = "";
+email_string    = "";
 password_string = "";
 
 FIELD_NONE     = -1;
-FIELD_EMAIL = 0;
-FIELD_USERNAME = 1; 
+FIELD_USERNAME = 0;
+FIELD_EMAIL    = 1;
 FIELD_PASSWORD = 2;
 
 active_field = FIELD_NONE;
@@ -16,29 +17,22 @@ MODE_LOGIN    = 0;
 MODE_REGISTER = 1;
 mode = MODE_LOGIN;
 
-message_text = "";
-message_color = c_red;
+show_username = false;
+message_text  = "";
 
-// ---------- Network Tracking ----------
-current_request_id = -1;
-is_loading = false;
+field_width  = 140;
+field_height = 20;
+field_gap    = 6;
 
-// ---------- Layout ----------
-field_width  = 340;
-field_height = 45;
+username_box_x = (room_width - field_width) / 2;
+email_box_x    = (room_width - field_width) / 2;
+password_box_x = (room_width - field_width) / 2;
 
-email_box_x = room_width/2 - field_width/2;
-email_box_y = 220;
+submit_width  = 80;
+submit_height = 18;
+submit_x1 = (room_width - submit_width) / 2;
+submit_x2 = submit_x1 + submit_width;
 
-username_box_x = room_width/2 - field_width/2;
-username_box_y = 280;
+max_field_length = 24; // emails need a bit more room than the old 16
 
-password_box_x = room_width/2 - field_width/2;
-password_box_y = 340;
-
-submit_x1 = room_width/2 - 90;
-submit_y1 = 410;
-submit_x2 = room_width/2 + 90;
-submit_y2 = 455;
-
-max_field_length = 64;
+scr_layout_login_fields();
