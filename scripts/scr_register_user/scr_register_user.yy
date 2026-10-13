@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"scr_register_user",
   "parent":{
-    "name":"CECS491B-Game-Project-rebuilt",
-    "path":"CECS491B-Game-Project-rebuilt.yyp",
+    "name":"CECS 491B Binary Brains Project",
+    "path":"CECS 491B Binary Brains Project.yyp",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
