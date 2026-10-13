@@ -24,7 +24,7 @@ if (_id == current_request_id) {
                     
                     message_color = c_green;
                     message_text = "Login successful!";
-                    // room_goto(rm_main_menu);
+                    room_goto(rm_profile);
                 } 
                 // 2. SUCCESS: Registration path (User object returned without immediate token if email confirmation is enabled)
                 else if (mode == MODE_REGISTER && (struct_exists(_response_data, "id") || struct_exists(_response_data, "user"))) {
