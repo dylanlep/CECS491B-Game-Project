@@ -11,7 +11,23 @@ function scr_submit_login_form() {
                 message_text = "Password must be at least 8 characters.";
                 exit;
             }
+        } else {
+            if (email_string == "" || password_string == "") {
+                message_text = "Please fill in both fields.";
+                exit;
+            }
+        }
 
+        if (mode == MODE_REGISTER) {
+            if (username_string == "" || email_string == "" || password_string == "") {
+                message_text = "Please fill in all fields.";
+                exit;
+            }
+
+            if (string_length(password_string) < 6) {
+                message_text = "Password must have 6+ characters.";
+                exit;
+            }
         } else {
             if (email_string == "" || password_string == "") {
                 message_text = "Please fill in both fields.";
