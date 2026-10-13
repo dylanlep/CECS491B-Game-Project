@@ -102,4 +102,5 @@ function scr_setup_lesson() {
 
 	feedback_text  = "";
 	feedback_timer = 0;
+	mistake_count  = 0; // for calculating how much score u get
 }

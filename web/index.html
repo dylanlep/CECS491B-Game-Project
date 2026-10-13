@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Binary Brains Account Recovery</title>
+</head>
+<body>
+  <p>Opening the Binary Brains password reset page…</p>
+  <p><a id="reset-link" href="reset-password.html">Continue to password reset</a></p>
+  <script>
+    const target = new URL("reset-password.html", window.location.href);
+    target.search = window.location.search;
+    target.hash = window.location.hash;
+    window.location.replace(target.href);
+  </script>
+</body>
+</html>

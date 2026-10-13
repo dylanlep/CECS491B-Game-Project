@@ -1,6 +1,51 @@
 /// obj_game - Draw Event
 
 draw_set_font(fnt_pixel);
+
+if (account_open) {
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, room_width, room_height, false);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_white);
+    draw_text(room_width/2, 40, "EDIT ACCOUNT");
+    draw_set_halign(fa_left);
+    draw_text(12, 68, "NEW EMAIL");
+    draw_sprite_stretched(account_active_field == 1 ? spr_ui_box_focus : spr_ui_box, 0, 82, 64, 162, 24);
+    draw_text(86, 76, account_email_input == "" ? "EMAIL" : account_email_input);
+    draw_text(12, 106, "NEW PASS");
+    draw_sprite_stretched(account_active_field == 2 ? spr_ui_box_focus : spr_ui_box, 0, 82, 102, 162, 24);
+    var _masked_account_password = string_repeat("*", string_length(account_password_input));
+    draw_text(86, 114, account_password_input == "" ? "PASSWORD" : _masked_account_password);
+    draw_set_halign(fa_center);
+    draw_sprite_stretched(spr_ui_box, 0, room_width/2 - 36, 150, 72, 20);
+    draw_set_color(c_black);
+    draw_text(room_width/2, 160, account_busy ? "SAVING" : "SAVE");
+    draw_set_color(c_aqua);
+    draw_text(room_width/2, 188, "BACK");
+    if (account_message != "") {
+        draw_set_color(c_yellow);
+        draw_text_ext(room_width/2, 212, account_message, -1, room_width - 16);
+    }
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_set_color(c_white);
+    exit;
+}
+
+draw_set_halign(fa_left);
+draw_set_valign(fa_middle);
+draw_set_color(c_white);
+draw_sprite_stretched(spr_ui_box, 0, 4, 22, 44, 14);
+draw_set_color(c_black);
+draw_text(26, 29, "ACC");
+
+// XP / score display — own alignment, drawn first
+draw_set_halign(fa_right);
+draw_set_valign(fa_top);
+draw_set_color(c_white);
+draw_text(room_width - 4, 4, "XP: " + string(language_scores[current_lesson]));
+
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 

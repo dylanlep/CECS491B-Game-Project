@@ -2,6 +2,16 @@
 
 gpu_set_texfilter(false); // crisp pixel scaling, no blur
 
+// ---------- Account settings ----------
+account_open = false;
+account_active_field = 0; // 0 = none, 1 = email, 2 = password
+account_email_input = "";
+account_password_input = "";
+account_message = "";
+account_request_id = -1;
+account_busy = false;
+account_pending_email_change = false;
+
 // ---------- Lesson data for each language ----------
 lesson_tokens[0] = ["print", "(", "\"Hello, world!\"", ")", ";"];              // Python
 lesson_tokens[1] = ["printf", "(", "\"Hello, world!\"", ")", ";"];             // C
@@ -35,6 +45,22 @@ chip_padding = 12;  // extra width added to a token's raw text width
 side_margin  = 10;  // left/right margin for both the slot area and bank area
 
 slot_area_y_start = lang_button_y + lang_button_height + 8;
+
+
+
+
+// ---------- Score (XP), one per language, like Duolingo ----------
+language_scores[0] = 0;
+language_scores[1] = 0;
+language_scores[2] = 0;
+
+base_xp          = 10; // XP for a perfect first-try correct answer
+mistake_penalty  = 2;  // XP lost per wrong Check attempt before getting it right
+min_xp           = 2;  // floor — a messy correct answer still earns something
+
+mistake_count = 0; // wrong Check presses on the CURRENT round only
+
+
 
 // ---------- Build the first lesson ----------
 scr_setup_lesson();
