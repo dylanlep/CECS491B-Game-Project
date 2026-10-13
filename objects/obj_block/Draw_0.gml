@@ -1,5 +1,7 @@
 /// obj_block - Draw Event
 
+if (instance_exists(obj_game) && obj_game.account_open) exit;
+
 var border_color;
 if (dragging) {
     border_color = c_yellow;
