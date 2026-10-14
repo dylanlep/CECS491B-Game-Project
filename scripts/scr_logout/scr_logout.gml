@@ -35,8 +35,7 @@ function logout_send_request() {
 function logout_clear_local_session() {
     global.supabase_access_token = "";
     global.email         = "";   // shown on the profile screen
-    global.coins         = 0;    // SCRUM-29: shop wallet
-    global.shop_owned    = {};   // SCRUM-29: owned shop items
+    progress_clear();                    // SCRUM-29: forget coins/items on this device (Supabase keeps them)
 	global.refresh_token = "";
     global.user_id       = "";
     global.auth_token    = "";   // older name used on em_branch; harmless to clear

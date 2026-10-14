@@ -21,6 +21,19 @@ if (message_text != "") {
     draw_text(room_width / 2, 170, message_text);
 }
 
+// SCRUM-29: coin balance (top-right) and any save/load problem
+draw_set_font(fnt_pixel);
+draw_set_valign(fa_middle);
+draw_set_halign(fa_right);
+draw_set_color(c_yellow);
+draw_text(room_width - 4, 6, (global.progress_load_id != -1) ? "LOADING..." : "COINS: " + string(global.coins));
+
+if (global.progress_error != "" && message_text == "") {
+    draw_set_halign(fa_center);
+    draw_set_color(c_red);
+    draw_text(room_width / 2, 170, global.progress_error);
+}
+
 // Reset so other objects aren't affected
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);

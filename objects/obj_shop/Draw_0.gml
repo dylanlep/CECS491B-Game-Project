@@ -53,6 +53,14 @@ if (message_text != "") {
     draw_set_color(message_color);
     draw_text(room_width / 2, 160, message_text);
 }
+// --- Save problem (e.g. no internet) ---
+if (global.progress_error != "" && message_text == "") {
+    draw_set_font(fnt_pixel);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_red);
+    draw_text(room_width / 2, 160, global.progress_error);
+}
 
 // --- BACK ---
 ui_button_draw(back_x, back_y, back_w, back_h, back_label, hover_back);

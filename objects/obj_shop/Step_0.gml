@@ -21,27 +21,27 @@ for (var i = 0; i < array_length(tabs); i++) {
     }
 }
 
-// --- BUY buttons ---
+// --- BUY buttons (the purchase itself happens in scr_player_progress) ---
 hover_row = -1;
 for (var r = 0; r < array_length(_visible); r++) {
     var _y = row_y0 + r * row_gap;
     if (ui_mouse_over(buy_x, _y, buy_w, buy_h)) {
         hover_row = r;
         if (_click) {
-            var _item  = items[_visible[r]];
-            var _owned = variable_struct_exists(global.shop_owned, _item.name);
-
-            if (_owned) {
-                message_text  = "YOU ALREADY OWN " + _item.name;
-                message_color = c_yellow;
-            } else if (global.coins < _item.price) {
-                message_text  = "NOT ENOUGH COINS";
-                message_color = c_red;
-            } else {
-                global.coins -= _item.price;
-                variable_struct_set(global.shop_owned, _item.name, true);
-                message_text  = "BOUGHT " + _item.name + "!";
-                message_color = c_lime;
+            var _item = items[_visible[r]];
+            switch (progress_buy(_item.name, _item.price)) {
+                case "owned":
+                    message_text  = "YOU ALREADY OWN " + _item.name;
+                    message_color = c_yellow;
+                    break;
+                case "poor":
+                    message_text  = "NOT ENOUGH COINS";
+                    message_color = c_red;
+                    break;
+                case "bought":
+                    message_text  = "BOUGHT " + _item.name + "!";
+                    message_color = c_lime;
+                    break;
             }
         }
     }

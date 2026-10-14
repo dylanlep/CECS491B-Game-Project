@@ -44,3 +44,8 @@ for (var i = 0; i < array_length(_extras); i++) {
 
 selected     = 0;    // STORY highlighted first
 message_text = "";
+
+
+// SCRUM-29: load this player's coins + owned items (once per login)
+progress_init();
+if (!global.progress_loaded) progress_load();
