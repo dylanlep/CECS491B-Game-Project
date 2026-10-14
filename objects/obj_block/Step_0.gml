@@ -1,3 +1,5 @@
+if (instance_exists(obj_friends)) exit;
+
 /// obj_block - Step Event
 
 if (instance_exists(obj_game) && obj_game.account_open) exit;

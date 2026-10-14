@@ -1,3 +1,9 @@
+if (instance_exists(obj_friends)) exit; // freeze while the friends panel is open
+
+if (keyboard_check_pressed(ord("F")) && !instance_exists(obj_friends)) {
+    instance_create_layer(0, 0, "Instances", obj_friends);
+}
+
 /// obj_game - Step Event
 
 if (account_open) {
