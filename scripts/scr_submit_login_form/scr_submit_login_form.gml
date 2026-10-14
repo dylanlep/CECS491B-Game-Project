@@ -18,11 +18,9 @@ function scr_submit_login_form() {
             var _res = scr_register_user(_clean_user, email_string, password_string);
 
             if (_res.success) {
-                //current_request_id = _res.async_id;
-				
-				//test...
-				global.pending_auth_request_id = _res.async_id;
-				global.pending_auth_mode = "register";
+                current_request_id = _res.async_id;
+                global.pending_auth_request_id = _res.async_id;
+                global.pending_auth_mode = "register";
                 is_loading = true;
                 message_color = c_yellow;
                 message_text = "Creating account...";
@@ -36,11 +34,9 @@ function scr_submit_login_form() {
             var _res = scr_login_user(email_string, password_string);
 
             if (_res.success) {
-                //current_request_id = _res.async_id;
-				
-				//test..
-				global.pending_auth_request_id = _res.async_id;
-				global.pending_auth_mode = "login";
+                current_request_id = _res.async_id;
+                global.pending_auth_request_id = _res.async_id;
+                global.pending_auth_mode = "login";
                 is_loading = true;
                 message_color = c_yellow;
                 message_text = "Authenticating...";

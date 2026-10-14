@@ -38,5 +38,9 @@ max_field_length = 24; // emails need a bit more room than the old 16
 is_loading = false;
 current_request_id = -1;
 
+// The HTTP event may run for callbacks unrelated to an auth submission.
+// Give its request filter a safe value before any callback is received.
+global.pending_auth_request_id = -1;
+global.pending_auth_mode = "";
 
 scr_layout_login_fields();

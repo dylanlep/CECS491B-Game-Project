@@ -71,6 +71,14 @@ for (var i = 0; i < word_count; i++) {
         slot_x[i] + slot_w[i], slot_y_row[i] + slot_height, true);
 }
 
+// Hint button
+draw_set_color(c_black);
+draw_rectangle(hint_btn_x1, hint_btn_y1, hint_btn_x2, hint_btn_y2, false);
+draw_set_color(c_white);
+draw_rectangle(hint_btn_x1 + 1, hint_btn_y1 + 1, hint_btn_x2 - 1, hint_btn_y2 - 1, false);
+draw_set_color(c_black);
+draw_text((hint_btn_x1 + hint_btn_x2) / 2, (hint_btn_y1 + hint_btn_y2) / 2, "HINT");
+
 // Check button
 draw_set_color(c_black);
 draw_rectangle(check_btn_x1, check_btn_y1, check_btn_x2, check_btn_y2, false);
@@ -81,8 +89,8 @@ draw_text((check_btn_x1 + check_btn_x2) / 2, (check_btn_y1 + check_btn_y2) / 2, 
 
 // Feedback
 if (feedback_text != "") {
-    draw_set_color(c_red);
-    draw_text(room_width/2, feedback_y, feedback_text);
+    draw_set_color(feedback_is_hint ? c_aqua : c_red);
+    draw_text_ext(room_width/2, feedback_y, feedback_text, -1, room_width - 12);
 }
 
 draw_set_halign(fa_left);

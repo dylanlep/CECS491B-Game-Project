@@ -71,6 +71,7 @@ mistake_penalty  = 2;  // XP lost per wrong Check attempt before getting it righ
 min_xp           = 2;  // floor — a messy correct answer still earns something
 
 mistake_count = 0; // wrong Check presses on the CURRENT round only
+feedback_is_hint = false;
 
 
 
