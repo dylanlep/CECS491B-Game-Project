@@ -23,7 +23,7 @@ if (variable_global_exists("login_screen_message") && global.login_screen_messag
 var _result = google_login_check_return();
 
 if (_result.status == "success") {
-    room_goto(rm_lesson);
+    room_goto(rm_mode_hub);
 } else if (_result.status == "error") {
     message_text  = _result.message;
     message_color = c_red;

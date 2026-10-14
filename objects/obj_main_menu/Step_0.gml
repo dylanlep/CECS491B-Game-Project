@@ -23,7 +23,7 @@ switch (_clicked) {
         var _logged_in = variable_global_exists("supabase_access_token")
                       && global.supabase_access_token != "";
         if (_logged_in) {
-            room_goto(rm_lesson);   // SCRUM-15: change to the Game Mode Hub
+            room_goto(rm_mode_hub);   // SCRUM-15: change to the Game Mode Hub
         } else {
             room_goto(rm_login);
         }
