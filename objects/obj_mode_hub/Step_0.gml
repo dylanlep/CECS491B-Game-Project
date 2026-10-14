@@ -33,7 +33,7 @@ if (_clicked < mode_count) {
 // --- Bottom row ---
 switch (_label) {
     case "SHOP":
-        message_text = "SHOP COMING SOON";   // SCRUM-29
+        room_goto(rm_shop);   // SCRUM-29
         break;
     case "PROFILE":
         room_goto(rm_profile);
