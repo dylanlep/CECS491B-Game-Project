@@ -88,19 +88,28 @@ function scr_setup_lesson() {
 	var bank_area_bottom = by + row_height;
 
 	// =====================================================================
-	// PART 3 — position the Check button and feedback text below everything
+	// PART 3 — position the Hint and Check buttons below everything
 	// =====================================================================
 
+	hint_btn_width   = 54;
 	check_btn_width  = 60;
 	check_btn_height = 16;
-	check_btn_x1 = (room_width - check_btn_width) / 2;
-	check_btn_y1 = bank_area_bottom + 8;
+	hint_btn_height  = check_btn_height;
+	control_gap = 6;
+	controls_width = hint_btn_width + control_gap + check_btn_width;
+	hint_btn_x1 = (room_width - controls_width) / 2;
+	hint_btn_y1 = bank_area_bottom + 8;
+	hint_btn_x2 = hint_btn_x1 + hint_btn_width;
+	hint_btn_y2 = hint_btn_y1 + hint_btn_height;
+	check_btn_x1 = hint_btn_x2 + control_gap;
+	check_btn_y1 = hint_btn_y1;
 	check_btn_x2 = check_btn_x1 + check_btn_width;
 	check_btn_y2 = check_btn_y1 + check_btn_height;
 
-	feedback_y = check_btn_y2 + 10;
+	feedback_y = check_btn_y2 + 8;
 
 	feedback_text  = "";
 	feedback_timer = 0;
+	feedback_is_hint = false;
 	mistake_count  = 0; // for calculating how much score u get
 }
