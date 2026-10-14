@@ -3,9 +3,9 @@
 is_open = false;
 
 
-width = 200;
-height = 104;
-op_border = 8;
+width = 160;
+height = 100;
+op_border = 6;
 op_space = 16;
 
 //general settings...

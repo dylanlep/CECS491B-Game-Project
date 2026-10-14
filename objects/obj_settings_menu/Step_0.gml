@@ -25,11 +25,14 @@ if (mouse_check_button_pressed(mb_left)) {
 		var menu_x1 = x;
         var menu_y1 = y + sprite_height + 5;
 		
+		
 		if (mouse_x >= x && mouse_x <= x + width &&
 	        mouse_y >= y && mouse_y <= y + height) {
         
 	        global.menu_focus = "language";
 	        with(obj_login) { active_field = -1; }
+			
+			
 		}
 	}
 	
@@ -41,6 +44,7 @@ if (is_open && global.menu_focus == "language") {
     up_key = keyboard_check_pressed(vk_up)
     down_key = keyboard_check_pressed(vk_down)
 	accept_key = keyboard_check_pressed(vk_space);
+	
 	
 	if (keyboard_check_pressed(vk_escape)) {
         is_open = false;

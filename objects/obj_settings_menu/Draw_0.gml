@@ -42,7 +42,7 @@ for (var i = 0; i < op_length; i++) {
 		
 		//draw_text_color(cur_x, cur_y, check_marker, box_color, box_color, box_color, box_color, 1);
         draw_text_color(cur_x, cur_y, base_text, _c, _c, _c, _c, 1);
-		var checkbox_x = cur_x + max_text_width + 30;
+		var checkbox_x = cur_x + max_text_width + 15; //+ 30
 		draw_text_color(checkbox_x, cur_y, check_marker, box_color, box_color, box_color, box_color, 1);
         
 		
@@ -53,7 +53,7 @@ for (var i = 0; i < op_length; i++) {
 		draw_text_color(cur_x, cur_y, base_text, _c, _c, _c, _c, 1);
         
         if (base_text == global.current_lesson_language) {
-            var indicator_x = cur_x + max_text_width + 30;
+            var indicator_x = cur_x + max_text_width + 15;
             draw_text_color(indicator_x, cur_y, "(Active)", c_lime, c_lime, c_lime, c_lime, 1);
 		}
 	}
@@ -62,7 +62,7 @@ for (var i = 0; i < op_length; i++) {
 	else if (menu_level == 4 && base_text != "Back") {
         draw_text_color(cur_x, cur_y, base_text, _c, _c, _c, _c, 1);
         if (base_text == current_difficulty) {
-            var indicator_x = cur_x + max_text_width + 30;
+            var indicator_x = cur_x + max_text_width + 15;
             draw_text_color(indicator_x, cur_y, "(Active)", c_lime, c_lime, c_lime, c_lime, 1);
         }
     }
