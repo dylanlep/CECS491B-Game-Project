@@ -133,7 +133,33 @@ if (mouse_check_button_pressed(mb_left)) {
         }
     }
 
-    // --- Check button ---
+    // --- Request Hint button ---
+	if (mouse_x >= hint_btn_x1 && mouse_x <= hint_btn_x2
+	&& mouse_y >= hint_btn_y1 && mouse_y <= hint_btn_y2) {
+	    var _hint_slot = -1;
+
+	    // Find the first slot that is empty or contains the wrong token.
+	    for (var i = 0; i < word_count; i++) {
+	        if (slot_occupant[i] == noone) {
+	            _hint_slot = i;
+	            break;
+	        } else if (slot_occupant[i].correct_index != i) {
+	            _hint_slot = i;
+	            break;
+	        }
+	    }
+
+	    if (_hint_slot == -1) {
+	        feedback_text = "Hint: all blocks are correctly placed. Press CHECK.";
+	    } else {
+	        feedback_text = "Hint: '" + correct_answer[_hint_slot]
+	            + "' goes in slot " + string(_hint_slot + 1) + ".";
+	    }
+	    feedback_timer = 300;
+	    feedback_is_hint = true;
+	}
+
+	// --- Check button ---
 	if (mouse_x >= check_btn_x1 && mouse_x <= check_btn_x2
 	&& mouse_y >= check_btn_y1 && mouse_y <= check_btn_y2) {
 
@@ -151,21 +177,25 @@ if (mouse_check_button_pressed(mb_left)) {
 	    if (!all_filled) {
 	        feedback_text  = "Fill in all blocks!";
 	        feedback_timer = 90;
+	        feedback_is_hint = false;
 
 	    } else if (all_correct) {
 	        var xp_earned = max(min_xp, base_xp - (mistake_count * mistake_penalty));
-	        language_scores[current_lesson] += xp_earned;
+        language_scores[current_lesson] += xp_earned;
+        scr_streak_record_lesson();
 
 	        scr_setup_lesson(); // new shuffled round — also resets mistake_count + feedback
 
 	        // Set AFTER scr_setup_lesson, since that script blanks feedback_text/timer
 	        feedback_text  = "Correct! +" + string(xp_earned) + " XP";
 	        feedback_timer = 90;
+	        feedback_is_hint = false;
 
 	    } else {
 	        mistake_count += 1;
 	        feedback_text  = "Try again.";
 	        feedback_timer = 90;
+	        feedback_is_hint = false;
 	    }
 	}
 }

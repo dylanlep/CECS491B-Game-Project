@@ -47,7 +47,19 @@ side_margin  = 10;  // left/right margin for both the slot area and bank area
 slot_area_y_start = lang_button_y + lang_button_height + 8;
 
 
+// -------- Connection to Language menu ---------
 
+if (variable_global_exists("current_lesson_language") && global.current_lesson_language != "None") {
+    for (var i = 0; i < lesson_count; i++) {
+        if (lesson_names[i] == global.current_lesson_language) {
+            current_lesson = i;
+            break;
+        }
+    }
+} else {
+    //default to C
+    current_lesson = 1;
+}
 
 // ---------- Score (XP), one per language, like Duolingo ----------
 language_scores[0] = 0;
@@ -59,6 +71,7 @@ mistake_penalty  = 2;  // XP lost per wrong Check attempt before getting it righ
 min_xp           = 2;  // floor — a messy correct answer still earns something
 
 mistake_count = 0; // wrong Check presses on the CURRENT round only
+feedback_is_hint = false;
 
 
 
