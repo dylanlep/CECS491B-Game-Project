@@ -1,15 +1,29 @@
 /// obj_main_menu - Create
+// Title screen: game name + START + SETTINGS.
 
 title_text = "BINARY BRAINS";
-menu_buttons = ["START"];
-selected_button = 0;
-button_width = 96;
-button_height = 18;
-button_gap = 8;
-button_x = (room_width - button_width) / 2;
-button_y_start = 102;
-message_text = "";
 
-var _streak_data = scr_streak_get_data();
-streak_count = _streak_data.count;
-streak_completed_today = _streak_data.completed_today;
+// Button labels, top to bottom
+buttons  = ["START", "SETTINGS"];
+selected = 0;          // which button is highlighted (0 = START)
+
+// Layout: all buttons share one width (the widest label) so they line up
+btn_height  = 18;
+btn_spacing = 8;       // gap between buttons
+btn_width   = 0;
+for (var i = 0; i < array_length(buttons); i++) {
+    btn_width = max(btn_width, ui_button_width(buttons[i]));
+}
+btn_width = max(btn_width, 96);              // never narrower than 96 px
+btn_x  = (room_width - btn_width) / 2;       // centered
+btn_y0 = 120;                                // top of the first button
+
+message_text = "";     // e.g. "SETTINGS COMING SOON"
+
+// SCRUM-7: just came back from Google sign-in? Let the login screen read the result.
+if (os_browser != browser_not_a_browser
+    && (js_google_login_get_param("access_token") != ""
+     || js_google_login_get_param("error") != ""
+     || js_google_login_get_param("error_description") != "")) {
+    room_goto(rm_login);
+}

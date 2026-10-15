@@ -42,7 +42,7 @@ if (_has_access_token || _has_user) {
     if (global.pending_auth_mode == "login") {
         message_text = "Login successful!";
         ds_map_destroy(_data);
-        room_goto(rm_main_menu);
+        room_goto(rm_mode_hub);
     } else {
         message_text = "Registration successful!";
         ds_map_destroy(_data);
