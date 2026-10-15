@@ -3,15 +3,30 @@
 var _button_count = array_length(menu_buttons);
 var _activate = -1;
 
-if (keyboard_check_pressed(vk_down)) {
-    selected_button = (selected_button + 1) mod _button_count;
+
+var is_menu_focused = false;
+if (variable_global_exists("menu_focus")) {
+    if (global.menu_focus == "language") {
+        is_menu_focused = true;
+    }
 }
-if (keyboard_check_pressed(vk_up)) {
-    selected_button = (selected_button - 1 + _button_count) mod _button_count;
+
+
+if (!is_menu_focused) {
+	if (keyboard_check_pressed(vk_down)) {
+	    selected_button = (selected_button + 1) mod _button_count;
+	}
+	
+	if (keyboard_check_pressed(vk_up)) {
+	    selected_button = (selected_button - 1 + _button_count) mod _button_count;
+	}
+	
+	if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space)) {
+	    _activate = selected_button;
+	}
 }
-if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space)) {
-    _activate = selected_button;
-}
+
+
 
 for (var i = 0; i < _button_count; i++) {
     var _button_y = button_y_start + i * (button_height + button_gap);
