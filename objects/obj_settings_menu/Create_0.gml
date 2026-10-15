@@ -1,4 +1,4 @@
-
+//obj_settings_menu - create
 //hamburger icon menu
 is_open = false;
 
@@ -43,6 +43,7 @@ option[4, 3] = "Back";
 
 global.current_lesson_language = "None";
 
+global.menu_focus = "none";
 
 current_difficulty = "Easy";
 

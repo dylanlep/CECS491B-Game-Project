@@ -1,3 +1,4 @@
+//obj_settings_menu - draw
 //Menu background
 //draw_self();
 

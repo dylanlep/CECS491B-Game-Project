@@ -1,3 +1,19 @@
+//obj_settings_menu - room start
+
+is_open = false;
+menu_level = 0;
+pos = 0;
+
+
+//decide if dropdown menu should show up
+if (room = rm_login || room = rm_main_menu || room = rm_lesson) {
+	visible = true;
+}
+else {
+	visible = false;
+}
+
+
 
 //repositioning
 if (room == rm_lesson) {
@@ -5,9 +21,3 @@ if (room == rm_lesson) {
     y = 170;
 }
 
-
-
-
-is_open = false;
-menu_level = 0;
-pos = 0;

@@ -1,57 +1,61 @@
-
+//obj_settings_menu - Step
 //Keyboard input
+
+if (!visible) exit;
 
 var up_key = 0;
 var down_key = 0;
 var accept_key = 0;
+var _left_click = mouse_check_button_pressed(mb_left);
+var just_opened = false;
 
 
-if (mouse_check_button_pressed(mb_left)) {
-    
-	//var clicking_button = position_meeting(mouse_x, mouse_y, id);
-	
-	if (!is_open && position_meeting(mouse_x, mouse_y, id)) {
+if (!is_open) {
+    if (_left_click && position_meeting(mouse_x, mouse_y, id)) {
         is_open = true;
-		//visible = false;
-		
-        global.menu_focus = "language"; 
+        global.menu_focus = "language";
         menu_level = 0;
         pos = 0;
+		just_opened = true;
         with(obj_login) { active_field = -1; }
-        
-	}
-	
-	else if (is_open) {
-		var menu_x1 = x;
-        var menu_y1 = y + sprite_height + 5;
-		
-		
-		if (mouse_x >= x && mouse_x <= x + width &&
-	        mouse_y >= y && mouse_y <= y + height) {
-        
-	        global.menu_focus = "language";
-	        with(obj_login) { active_field = -1; }
-			
-			
-		}
-	}
-	
-	
+    }
 }
 
 
 if (is_open && global.menu_focus == "language") {
-    up_key = keyboard_check_pressed(vk_up)
-    down_key = keyboard_check_pressed(vk_down)
-	accept_key = keyboard_check_pressed(vk_space);
+    up_key = keyboard_check_pressed(vk_up);
+    down_key = keyboard_check_pressed(vk_down);
+    accept_key = keyboard_check_pressed(vk_space);
 	
-	
-	if (keyboard_check_pressed(vk_escape)) {
+    
+    if (keyboard_check_pressed(vk_escape)) {
         is_open = false;
-        //visible = true;
-		global.menu_focus = "login";
-	}
+        global.menu_focus = "none";
+		menu_level = 0;
+		pos = 0;
+    }
+
+    
+    var menu_x1 = x;
+    var menu_y1 = y;
+	
+	if (!just_opened) {
+	    for (var i = 0; i < op_length; i++) {
+	        var row_top    = menu_y1 + op_border + (op_space * i);
+	        var row_bottom = row_top + op_space;
+        
 		
+	        if (mouse_x >= menu_x1 && mouse_x <= menu_x1 + width
+	        &&  mouse_y >= row_top && mouse_y <= row_bottom) {
+            
+	            pos = i;
+	            if (_left_click) {
+	                accept_key = true; 
+	            }
+			
+	        }
+	    }
+	}
 }
 
 
@@ -79,7 +83,8 @@ switch(menu_level) {
 			case 2:
 				is_open = false;
                 visible = true;
-                global.menu_focus = "login";
+                global.menu_focus = "none";
+				menu_level = 0;
                 pos = 0;
                 break;
 			
@@ -226,10 +231,6 @@ switch(menu_level) {
 //Update length after changing menu_level
 //store # of options in current menu
 op_length = array_length(option[menu_level]);
-
-
-//up_key = keyboard_check_pressed(vk_up);
-//down_key = keyboard_check_pressed(vk_down);
 
 
 pos += down_key - up_key;
