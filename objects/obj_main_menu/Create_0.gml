@@ -19,3 +19,11 @@ btn_x  = (room_width - btn_width) / 2;       // centered
 btn_y0 = 120;                                // top of the first button
 
 message_text = "";     // e.g. "SETTINGS COMING SOON"
+
+// SCRUM-7: just came back from Google sign-in? Let the login screen read the result.
+if (os_browser != browser_not_a_browser
+    && (js_google_login_get_param("access_token") != ""
+     || js_google_login_get_param("error") != ""
+     || js_google_login_get_param("error_description") != "")) {
+    room_goto(rm_login);
+}
