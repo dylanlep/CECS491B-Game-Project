@@ -4,13 +4,27 @@
 /// so switching to server-side functions later only changes this file.
 
 /// Makes sure every global this script uses exists.
+
+#macro XP_PER_LEVEL 100   // every 100 XP = 1 level
+
 function progress_init() {
     if (!variable_global_exists("coins"))            global.coins = 0;
+	if (!variable_global_exists("total_xp"))         global.total_xp = 0;
     if (!variable_global_exists("shop_owned"))       global.shop_owned = {};
     if (!variable_global_exists("progress_loaded"))  global.progress_loaded = false;
     if (!variable_global_exists("progress_load_id")) global.progress_load_id = -1;
     if (!variable_global_exists("progress_save_id")) global.progress_save_id = -1;
     if (!variable_global_exists("progress_error"))   global.progress_error = "";
+}
+
+/// Current level (starts at 1).
+function progress_level() {
+    return floor(global.total_xp / XP_PER_LEVEL) + 1;
+}
+
+/// XP earned inside the current level (0 to XP_PER_LEVEL - 1).
+function progress_xp_in_level() {
+    return global.total_xp mod XP_PER_LEVEL;
 }
 
 /// The logged-in player's token, or "" if nobody is logged in.
@@ -38,7 +52,7 @@ function progress_load() {
 
     var _h = progress_headers(_token);
     global.progress_load_id = http_request(
-        SUPABASE_URL + "/rest/v1/player_progress?select=coins,owned", "GET", _h, "");
+        SUPABASE_URL + "/rest/v1/player_progress?select=coins,owned,xp", "GET", _h, "");
     ds_map_destroy(_h);
 }
 
@@ -50,6 +64,7 @@ function progress_save() {
 
     var _body = json_stringify({
         coins: global.coins,
+		xp: global.total_xp,
         owned: variable_struct_get_names(global.shop_owned)
     });
     var _h = progress_headers(_token);
@@ -76,12 +91,14 @@ function progress_earn(_amount) {
     progress_init();
     if (_amount <= 0) return;
     global.coins += _amount;
+	global.total_xp += _amount;   // 1 XP earned = 1 coin, but coins get spent and XP never goes down
     progress_save();
 }
 
 /// Forget this player's progress on this device (logout). Supabase keeps it.
 function progress_clear() {
     global.coins            = 0;
+	global.total_xp         = 0;
     global.shop_owned       = {};
     global.progress_loaded  = false;
     global.progress_load_id = -1;
@@ -107,9 +124,11 @@ function progress_handle_async() {
         try { _rows = json_parse(async_load[? "result"]); } catch (_e) { _rows = []; }
 
         global.coins      = 0;
+		global.total_xp   = 0;
         global.shop_owned = {};
         if (is_array(_rows) && array_length(_rows) > 0) {        // returning player
             global.coins = _rows[0].coins;
+			if (variable_struct_exists(_rows[0], "xp")) global.total_xp = _rows[0].xp;
             var _owned = _rows[0].owned;
             for (var i = 0; i < array_length(_owned); i++) {
                 variable_struct_set(global.shop_owned, _owned[i], true);
