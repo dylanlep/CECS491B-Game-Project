@@ -63,8 +63,8 @@ function progress_save() {
     if (_token == "" || !global.progress_loaded) return;   // never overwrite data we haven't loaded
 
     var _body = json_stringify({
-        coins: global.coins,
-		xp: global.total_xp,
+        coins: int64(global.coins),
+		xp: int64(global.total_xp),
         owned: variable_struct_get_names(global.shop_owned)
     });
     var _h = progress_headers(_token);
@@ -136,8 +136,9 @@ function progress_handle_async() {
         }                                                          // new player: 0 coins, nothing owned
         global.progress_loaded = true;
         global.progress_error  = "";
-    } else {
+    }   else {
         global.progress_save_id = -1;
-        global.progress_error   = _ok ? "" : "COULD NOT SAVE PROGRESS";
+        global.progress_error   = _ok ? "" : "COULD NOT SAVE (" + string(_http) + ")";
+        if (!_ok) show_debug_message("Progress save failed: HTTP " + string(_http) + " " + string(async_load[? "result"]));
     }
 }
