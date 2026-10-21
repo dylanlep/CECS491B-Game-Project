@@ -48,7 +48,7 @@ if (_has_access_token || _has_user) {
         global.supabase_access_token = ds_map_find_value(_data, "access_token");
     }
 
-    // Extract User Details (Email and Username)
+    // Extract User Details (Email and Username from metadata)
     if (_has_user) {
         var _user_map = ds_map_find_value(_data, "user");
         
@@ -77,8 +77,7 @@ if (_has_access_token || _has_user) {
     if (global.pending_auth_mode == "login") {
         message_text = "Login successful!";
         ds_map_destroy(_data);
-        // Note: change to main menu room when implemented
-        room_goto(rm_profile);
+        room_goto(rm_mode_hub); 
     } else {
         message_text = "Registration successful!";
         ds_map_destroy(_data);
