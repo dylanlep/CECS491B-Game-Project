@@ -1,4 +1,13 @@
+// SCRUM-47: freeze the hub while the cheat pop-up is open
+if (instance_exists(obj_cheat_popup)) exit;
 /// obj_mode_hub - Step
+
+// TEMP TEST (remove before the pull request): F9 shows the cheat pop-up
+if (keyboard_check_pressed(vk_f9)) {
+    if (!variable_global_exists("test_cheat_attempt")) global.test_cheat_attempt = 0;
+    global.test_cheat_attempt++;
+    cheat_popup_show(global.test_cheat_attempt, "TESTER");
+}
 
 var _count   = array_length(btn_label);
 var _clicked = -1;
