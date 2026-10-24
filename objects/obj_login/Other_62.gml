@@ -46,6 +46,11 @@ if (_has_access_token || _has_user) {
     // Save Access Token
     if (_has_access_token) {
         global.supabase_access_token = ds_map_find_value(_data, "access_token");
+		
+		//save token to ini file (For persistent login)
+		ini_open("saved_login.ini");
+        ini_write_string("Data", "token", global.supabase_access_token);
+        ini_close();
     }
 
     // Extract User Details (Email and Username from metadata)
