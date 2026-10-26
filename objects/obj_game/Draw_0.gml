@@ -2,6 +2,46 @@
 
 draw_set_font(fnt_pixel);
 
+if (level_complete_open) {
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, room_width, room_height, false);
+
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+
+    draw_set_color(c_yellow);
+    draw_text_transformed(room_width/2, 28, "LEVEL COMPLETE!", 1.5, 1.5, 0);
+
+    draw_set_color(c_aqua);
+    draw_text(room_width/2, 50, lc_lang);
+
+    draw_set_color(lc_mistakes == 0 ? c_lime : c_white);
+    draw_text(room_width/2, 68, lc_mistakes == 0 ? "PERFECT! NO MISTAKES" : "MISTAKES: " + string(lc_mistakes));
+
+    // Earned this level
+    draw_set_color(c_lime);
+    draw_text(room_width/2, 96,  "XP EARNED: +" + string(lc_xp));
+    draw_set_color(c_yellow);
+    draw_text(room_width/2, 114, "COINS EARNED: +" + string(lc_coins));
+
+    // Totals
+    draw_set_color(c_white);
+    draw_text(room_width/2, 140, "TOTAL " + lc_lang + " XP: " + string(language_scores[current_lesson]));
+    draw_text(room_width/2, 156, "TOTAL COINS: " + string(global.coins));
+
+    draw_set_color(c_orange);
+    draw_text(room_width/2, 174, "DAY STREAK: " + string(lc_streak));
+
+    for (var i = 0; i < 2; i++) {
+        ui_button_draw(lc_btn_x[i], lc_btn_y, lc_btn_w[i], lc_btn_h, lc_btn_label[i], lc_hover == i);
+    }
+
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_set_color(c_white);
+    exit;
+}
+
 if (account_open) {
     draw_set_color(c_black);
     draw_rectangle(0, 0, room_width, room_height, false);

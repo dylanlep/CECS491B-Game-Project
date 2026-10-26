@@ -1,5 +1,25 @@
 /// obj_game - Step Event
 
+// ---------- Level Complete screen ----------
+if (level_complete_open) {
+    lc_hover = -1;
+    for (var i = 0; i < 2; i++) {
+        if (ui_mouse_over(lc_btn_x[i], lc_btn_y, lc_btn_w[i], lc_btn_h)) lc_hover = i;
+    }
+
+    var _go_next = keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space)
+                || (mouse_check_button_pressed(mb_left) && lc_hover == 0);
+    var _go_menu = mouse_check_button_pressed(mb_left) && lc_hover == 1;
+
+    if (_go_next) {
+        level_complete_open = false;
+        scr_setup_lesson();          // fresh shuffled round
+    } else if (_go_menu) {
+        room_goto(rm_mode_hub);
+    }
+    exit;
+}
+
 if (account_open) {
     if (mouse_check_button_pressed(mb_left)) {
         var over_email = mouse_x >= 38 && mouse_x <= room_width - 12
@@ -180,16 +200,20 @@ if (mouse_check_button_pressed(mb_left)) {
 	        feedback_is_hint = false;
 
 	    } else if (all_correct) {
-	        var xp_earned = max(min_xp, base_xp - (mistake_count * mistake_penalty));
-        language_scores[current_lesson] += xp_earned;
-        scr_streak_record_lesson();
+	    var xp_earned    = max(min_xp, base_xp - (mistake_count * mistake_penalty));
+	    var coins_earned = xp_earned;               // 1 XP = 1 coin
 
-	        scr_setup_lesson(); // new shuffled round — also resets mistake_count + feedback
+	    language_scores[current_lesson] += xp_earned;
+	    progress_earn(coins_earned);                // pay out now (saves to Supabase)
+	    var _streak = scr_streak_record_lesson();
 
-	        // Set AFTER scr_setup_lesson, since that script blanks feedback_text/timer
-	        feedback_text  = "Correct! +" + string(xp_earned) + " XP";
-	        feedback_timer = 90;
-	        feedback_is_hint = false;
+	    // Data for the Level Complete screen
+	    lc_xp       = xp_earned;
+	    lc_coins    = coins_earned;
+	    lc_mistakes = mistake_count;
+	    lc_streak   = _streak;
+	    lc_lang     = lesson_names[current_lesson];
+	    level_complete_open = true;                 // next round is set up on CONTINUE
 
 	    } else {
 	        mistake_count += 1;

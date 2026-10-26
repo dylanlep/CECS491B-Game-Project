@@ -73,7 +73,23 @@ min_xp           = 2;  // floor — a messy correct answer still earns something
 mistake_count = 0; // wrong Check presses on the CURRENT round only
 feedback_is_hint = false;
 
+// ---------- Level Complete screen ----------
+level_complete_open = false;
+lc_xp       = 0;   // XP earned this level
+lc_coins    = 0;   // coins earned this level
+lc_mistakes = 0;
+lc_streak   = 0;
+lc_lang     = "";
+lc_hover    = -1;  // 0 = CONTINUE, 1 = MENU
 
+lc_btn_label = ["CONTINUE", "MENU"];
+lc_btn_h = 16;
+lc_btn_y = 196;
+lc_btn_w = [ui_button_width(lc_btn_label[0]), ui_button_width(lc_btn_label[1])];
+var _lc_gap   = 8;
+var _lc_row_w = lc_btn_w[0] + _lc_gap + lc_btn_w[1];
+lc_btn_x = [(room_width - _lc_row_w) / 2, 0];
+lc_btn_x[1] = lc_btn_x[0] + lc_btn_w[0] + _lc_gap;
 
 // ---------- Build the first lesson ----------
 scr_setup_lesson();
