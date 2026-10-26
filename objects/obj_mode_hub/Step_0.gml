@@ -45,6 +45,7 @@ switch (_label) {
         room_goto(rm_shop);   // SCRUM-29
         break;
     case "PROFILE":
+		global.profile_return_room = room;
         room_goto(rm_profile);
         break;
 }
