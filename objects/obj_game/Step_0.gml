@@ -135,7 +135,7 @@ if (mouse_check_button_pressed(mb_left)) {
 
         if (mouse_x >= bx1 && mouse_x <= bx2 && mouse_y >= by1 && mouse_y <= by2) {
             current_lesson = i;
-            scr_setup_lesson();
+            scr_build_board();
         }
     }
 
@@ -149,7 +149,7 @@ if (mouse_check_button_pressed(mb_left)) {
 	    for (var i = 0; i < word_count; i++) {
 	        if (slot_occupant[i] == noone) {
 	            all_filled = false;
-	        } else if (slot_occupant[i].correct_index != i) {
+	        } else if (slot_occupant[i].word_text != slot_answer[i]) {
 	            all_correct = false;
 	        }
 	    }
@@ -162,10 +162,20 @@ if (mouse_check_button_pressed(mb_left)) {
 	        var xp_earned = max(min_xp, base_xp - (mistake_count * mistake_penalty));
 	        language_scores[current_lesson] += xp_earned;
 
-	        scr_setup_lesson(); // new shuffled round — also resets mistake_count + feedback
+	        var msg = "Correct! +" + string(xp_earned) + " XP";
 
-	        // Set AFTER scr_setup_lesson, since that script blanks feedback_text/timer
-	        feedback_text  = "Correct! +" + string(xp_earned) + " XP";
+	        if (current_lesson == 0) {
+	            current_level += 1;
+	            if (current_level >= array_length(global.python_levels)) {
+	                current_level = 0;
+	                msg = "WORLD 1 CLEAR! +" + string(xp_earned) + " XP";
+	            }
+	        }
+
+	        scr_build_board();
+
+	        // Set AFTER building, since the builder blanks the feedback text
+	        feedback_text  = msg;
 	        feedback_timer = 90;
 
 	    } else {

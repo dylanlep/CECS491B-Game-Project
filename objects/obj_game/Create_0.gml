@@ -22,7 +22,7 @@ lesson_names[1] = "C";
 lesson_names[2] = "Java";
 
 lesson_count   = array_length(lesson_names);
-current_lesson = 1; // start on C
+current_lesson = 0; // start on Python 
 
 // ---------- Language tab layout ----------
 lang_button_width   = 70;
@@ -62,5 +62,16 @@ mistake_count = 0; // wrong Check presses on the CURRENT round only
 
 
 
+
+// ---------- Python World 1 levels ----------
+global.python_levels = scr_python_levels();
+current_level = 0;
+
+// Level-mode drawing state (scr_setup_level / scr_setup_lesson fill these in)
+fixed_n     = 0;
+hint_text   = "";
+level_title = "";
+
+
 // ---------- Build the first lesson ----------
-scr_setup_lesson();
+scr_build_board();

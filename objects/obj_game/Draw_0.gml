@@ -64,6 +64,36 @@ for (var i = 0; i < lesson_count; i++) {
     draw_text((bx1 + bx2) / 2, (by1 + by2) / 2, lesson_names[i]);
 }
 
+
+
+
+// ---------- Level title, hint and fixed code text (Python levels) ----------
+if (hint_text != "") {
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_top);
+    draw_set_color(c_yellow);
+    draw_text(room_width / 2, slot_area_y_start - 2,
+        "LEVEL " + string(current_level + 1) + ": " + level_title);
+    draw_set_color(c_ltgray);
+    draw_text_ext(room_width / 2, slot_area_y_start + 9, hint_text, -1, room_width - 20);
+}
+
+draw_set_halign(fa_left);
+draw_set_valign(fa_middle);
+draw_set_color(c_white);
+for (var f = 0; f < fixed_n; f++) {
+    draw_text(fixed_x[f], fixed_y[f], fixed_text[f]);
+}
+
+// restore what the rest of this event assumes
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+
+
+
+
+
+
 // Empty slot outlines — each sized to its own token's width
 draw_set_color(c_black);
 for (var i = 0; i < word_count; i++) {

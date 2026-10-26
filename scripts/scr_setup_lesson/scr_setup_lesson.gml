@@ -12,7 +12,13 @@ function scr_setup_lesson() {
 	}
 
 	draw_set_font(fnt_pixel); // needed here so string_width() below is accurate
-
+	
+	// Clear level-mode leftovers so the Draw event doesn't show them on C / Java
+	fixed_n    = 0;
+	hint_text  = "";
+	level_title = "";
+	
+	
 	correct_answer = lesson_tokens[current_lesson];
 	word_count = array_length(correct_answer);
 
@@ -35,6 +41,7 @@ function scr_setup_lesson() {
 	    slot_y_row[i]     = sy;
 	    slot_w[i]         = w;
 	    slot_occupant[i]  = noone;
+		slot_answer[i]    = correct_answer[i]; // NEW: the checker now compares text
 
 	    sx += w + chip_spacing;
 	}
