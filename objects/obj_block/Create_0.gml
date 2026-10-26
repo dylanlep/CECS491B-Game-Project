@@ -25,3 +25,4 @@ hover_ease    = 0.25;
 border_thickness = 2;
 
 depth = 0;
+
