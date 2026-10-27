@@ -82,13 +82,17 @@ draw_text(room_width - 12, 174, _loading ? "..." : ((display_created == "") ? "-
 // ---------- Buttons ----------
 ui_button_draw(edit_x, edit_y, edit_w, edit_h, edit_label, hover_edit);
 ui_button_draw(back_x, back_y, back_w, back_h, back_label, hover_back);
+if (!edit_open) {
+    ui_button_draw(delete_x, delete_y, delete_w, delete_h, delete_label, hover_delete);
+}
 
 // ---------- Status message ----------
 if (profile_message != "") {
     draw_set_halign(fa_center);
     draw_set_valign(fa_top);
     draw_set_color(profile_message_color);
-    draw_text_ext(room_width / 2, 210, profile_message, -1, room_width - 16);
+	//orig y = 210
+    draw_text_ext(room_width / 2, 228, profile_message, -1, room_width - 16);
 }
 
 // ---------- Edit Account popup ----------

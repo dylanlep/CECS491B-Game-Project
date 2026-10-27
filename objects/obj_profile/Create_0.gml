@@ -19,6 +19,7 @@ profile_message_color = c_yellow;
 // ---------- Request tracking ----------
 profile_load_id  = -1;   // GET /auth/v1/user
 save_request_id  = -1;   // PUT /auth/v1/user
+delete_request_id = -1;
 busy             = false;
 pending_email    = "";   // the email we asked to change to (if any)
 
@@ -35,8 +36,16 @@ back_h = 16;
 back_x = room_width  - back_w - 4;
 back_y = room_height - back_h - 4;
 
+
+delete_label = "DELETE ACCOUNT";
+delete_w = ui_button_width(delete_label);
+delete_h = 18;
+delete_x = (room_width - delete_w) / 2;
+delete_y = 208;
+
 hover_edit = false;
 hover_back = false;
+hover_delete = false;
 
 // ---------- Edit Account popup ----------
 edit_open          = false;
@@ -209,6 +218,34 @@ submit_edit = function() {
         edit_message_color = c_yellow;
     }
 };
+
+
+//account deletion stuff
+submit_delete = function() {
+    if (busy) return;
+
+    var _token = progress_token();
+    if (_token == "") {
+        profile_message = "Please log in again.";
+        profile_message_color = c_red;
+        return;
+    }
+
+    var _h = progress_headers(_token);
+    delete_request_id = http_request(SUPABASE_URL + "/rest/v1/rpc/delete_auth_user", "POST", _h, "{}");
+    ds_map_destroy(_h);
+
+    if (delete_request_id == -1) {
+        profile_message = "Could not start deletion.";
+        profile_message_color = c_red;
+		
+    } else {
+        busy = true;
+        profile_message = "deleting account...";
+        profile_message_color = c_yellow;
+    }
+};
+
 
 // ---------- Load the logged-in user's details ----------
 var _token = progress_token();

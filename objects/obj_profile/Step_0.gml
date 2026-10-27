@@ -4,7 +4,7 @@ if (edit_open) {
     // ---------------- Edit Account popup ----------------
     hover_save   = ui_mouse_over(save_x,   popup_btn_y, save_w,   popup_btn_h);
     hover_cancel = ui_mouse_over(cancel_x, popup_btn_y, cancel_w, popup_btn_h);
-
+	
     if (mouse_check_button_pressed(mb_left)) {
         if (ui_mouse_over(field_x, user_y, field_w, field_h)) {
             edit_field = 1;
@@ -50,12 +50,14 @@ if (edit_open) {
     // Nothing else on screen reacts while the popup is open
     hover_edit = false;
     hover_back = false;
+	hover_delete = false;
     exit;
 }
 
 // ---------------- Main profile screen ----------------
 hover_edit = ui_mouse_over(edit_x, edit_y, edit_w, edit_h);
 hover_back = ui_mouse_over(back_x, back_y, back_w, back_h);
+hover_delete = ui_mouse_over(delete_x, delete_y, delete_w, delete_h);
 
 if (mouse_check_button_pressed(mb_left)) {
     if (hover_back) {
@@ -76,6 +78,8 @@ if (mouse_check_button_pressed(mb_left)) {
             edit_message  = "";
             profile_message = "";
         }
-    }
+    } else if (hover_delete) {
+		global.delete_confirm_id = show_question_async("Confirm account deletion?");
+	}
 }
 if (keyboard_check_pressed(vk_escape)) room_goto(return_room);

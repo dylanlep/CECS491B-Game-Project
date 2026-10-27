@@ -3,7 +3,7 @@
 progress_handle_async();   // coins / XP load (ignores IDs that aren't its own)
 
 var _id = async_load[? "id"];
-if (_id != profile_load_id && _id != save_request_id) exit;   // not ours
+if (_id != profile_load_id && _id != save_request_id && _id != delete_request_id) exit;   // not ours
 if (async_load[? "status"] == 1) exit;                         // still downloading
 
 var _status = async_load[? "status"];
@@ -60,3 +60,38 @@ if (_ok) {
     }
 }
 pending_email = "";
+
+//----result of account deletion----
+if (_id == delete_request_id) {
+    delete_request_id = -1;
+    busy = false;
+
+    if (_ok) {
+        global.user_id  = "";
+        global.email    = "";
+        global.username = "";
+        if (variable_global_exists("progress_loaded")) global.progress_loaded = false;
+		global.supabase_access_token = "";
+		
+		//clear ini file credentials
+        ini_open("save_data.ini");
+        ini_section_delete("auth");
+        ini_close();
+        
+        room_goto(rm_login);
+		
+    } else {
+        profile_message_color = c_red;
+        if (_status < 0) {
+            profile_message = "Could not connect to the server.";
+        } else if (is_struct(_data) && variable_struct_exists(_data, "msg")) {
+            profile_message = _data.msg;
+        } else if (is_struct(_data) && variable_struct_exists(_data, "message")) {
+            profile_message = _data.message;
+        } else {
+            profile_message = "account deletion failed (HTTP " + string(_http) + ").";
+        }
+    }
+    exit;
+}
+

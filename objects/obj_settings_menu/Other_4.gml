@@ -16,6 +16,10 @@ else {
 
 
 //repositioning
+if (room == rm_login) {
+	y = 10
+	
+}
 if (room == rm_lesson) {
     x = room_width - 260; 
     y = 170;
