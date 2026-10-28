@@ -4,18 +4,18 @@
 if (instance_exists(obj_cheat_popup)) exit;
 
 // TEMP TEST (remove before the pull request) -------------------------
-// F9  = show the pop-up directly (no server involved)
-// F10 = pretend coins were edited in memory (then try to buy something in the SHOP)
-// F11 = send an impossible reward (99999 coins) to the server
-// F12 = try to buy an item that doesn't exist
-if (keyboard_check_pressed(vk_f9)) {
+// 1 = show the pop-up directly (no server involved)
+// 2 = pretend coins were edited in memory (then try to buy something in the SHOP)
+// 3 = send an impossible reward (99999 coins) to the server
+// 4 = try to buy an item that doesn't exist
+if (keyboard_check_pressed(ord("1"))) {
     if (!variable_global_exists("test_cheat_attempt")) global.test_cheat_attempt = 0;
     global.test_cheat_attempt++;
     cheat_popup_show(global.test_cheat_attempt, "TESTER");
 }
-if (keyboard_check_pressed(vk_f10)) global.coins = 9999;
-if (keyboard_check_pressed(vk_f11)) global.progress_earn_id = progress_rpc("earn_coins", { p_amount: 99999 });
-if (keyboard_check_pressed(vk_f12)) {
+if (keyboard_check_pressed(ord("2"))) global.coins = 9999;
+if (keyboard_check_pressed(ord("3"))) global.progress_earn_id = progress_rpc("earn_coins", { p_amount: 99999 });
+if (keyboard_check_pressed(ord("4"))) {
     global.progress_buy_item = "GOLDEN UNICORN";
     global.progress_buy_id   = progress_rpc("buy_item", { p_item: "GOLDEN UNICORN" });
 }
