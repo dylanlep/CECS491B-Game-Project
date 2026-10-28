@@ -1,3 +1,5 @@
+progress_handle_async();   // coins / XP save result (ignores IDs that aren't its own)
+
 var _request_id = async_load[? "id"];
 if (_request_id != account_request_id) exit;
 
