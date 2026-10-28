@@ -1,5 +1,10 @@
 /// obj_mode_hub - Step
 
+// SCRUM-47: freeze the hub while the cheat pop-up is open
+if (instance_exists(obj_cheat_popup)) exit;
+
+
+
 var _count   = array_length(btn_label);
 var _clicked = -1;
 
@@ -36,7 +41,7 @@ switch (_label) {
         room_goto(rm_shop);   // SCRUM-29
         break;
     case "PROFILE":
-		global.profile_return_room = room;
+        global.profile_return_room = room;   // Dylan H: lets the profile's BACK return here
         room_goto(rm_profile);
         break;
 }
