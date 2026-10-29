@@ -7,3 +7,4 @@ btn_height = 16;
 btn_x = room_width  - btn_width  - 4;
 btn_y = room_height - btn_height - 4;
 hovered = false;
+back_confirm_id = -1;
