@@ -133,6 +133,8 @@ if (mouse_check_button_pressed(mb_left)
     exit;
 }
 
+round_frames += 1;
+
 if (feedback_timer > 0) {
     feedback_timer -= 1;
     if (feedback_timer <= 0) feedback_text = "";
@@ -177,6 +179,7 @@ if (mouse_check_button_pressed(mb_left)) {
 	    }
 	    feedback_timer = 300;
 	    feedback_is_hint = true;
+		hints_used += 1;
 	}
 
 	// --- Check button ---
@@ -213,6 +216,8 @@ if (mouse_check_button_pressed(mb_left)) {
 	    lc_mistakes = mistake_count;
 	    lc_streak   = _streak;
 	    lc_lang     = lesson_names[current_lesson];
+		lc_hints    = hints_used;
+	    lc_time     = round_frames / game_get_speed(gamespeed_fps);
 	    level_complete_open = true;                 // next round is set up on CONTINUE
 
 	    } else {

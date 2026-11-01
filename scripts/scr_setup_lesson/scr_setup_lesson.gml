@@ -118,4 +118,6 @@ function scr_setup_lesson() {
 	feedback_timer = 0;
 	feedback_is_hint = false;
 	mistake_count  = 0; // for calculating how much score u get
+	hints_used     = 0;
+	round_frames   = 0;
 }

@@ -81,6 +81,12 @@ lc_mistakes = 0;
 lc_streak   = 0;
 lc_lang     = "";
 lc_hover    = -1;  // 0 = CONTINUE, 1 = MENU
+lc_hints    = 0;   // hints used this level
+lc_time     = 0;   // seconds taken this level
+
+// ---------- Per-round tracking (reset in scr_setup_lesson) ----------
+hints_used   = 0;
+round_frames = 0;
 
 lc_btn_label = ["CONTINUE", "MENU"];
 lc_btn_h = 16;

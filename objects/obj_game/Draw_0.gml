@@ -18,19 +18,28 @@ if (level_complete_open) {
     draw_set_color(lc_mistakes == 0 ? c_lime : c_white);
     draw_text(room_width/2, 68, lc_mistakes == 0 ? "PERFECT! NO MISTAKES" : "MISTAKES: " + string(lc_mistakes));
 
+    // Hints + time
+    var _secs     = floor(lc_time);
+    var _time_str = string(_secs div 60) + ":" + (((_secs mod 60) < 10) ? "0" : "") + string(_secs mod 60);
+
+    draw_set_color(lc_hints == 0 ? c_lime : c_aqua);
+    draw_text(room_width/2, 82, "HINTS USED: " + string(lc_hints));
+    draw_set_color(c_white);
+    draw_text(room_width/2, 94, "TIME: " + _time_str);
+
     // Earned this level
     draw_set_color(c_lime);
-    draw_text(room_width/2, 96,  "XP EARNED: +" + string(lc_xp));
+    draw_text(room_width/2, 112, "XP EARNED: +" + string(lc_xp));
     draw_set_color(c_yellow);
-    draw_text(room_width/2, 114, "COINS EARNED: +" + string(lc_coins));
+    draw_text(room_width/2, 126, "COINS EARNED: +" + string(lc_coins));
 
     // Totals
     draw_set_color(c_white);
-    draw_text(room_width/2, 140, "TOTAL " + lc_lang + " XP: " + string(language_scores[current_lesson]));
-    draw_text(room_width/2, 156, "TOTAL COINS: " + string(global.coins));
+    draw_text(room_width/2, 146, "TOTAL " + lc_lang + " XP: " + string(language_scores[current_lesson]));
+    draw_text(room_width/2, 160, "TOTAL COINS: " + string(global.coins));
 
     draw_set_color(c_orange);
-    draw_text(room_width/2, 174, "DAY STREAK: " + string(lc_streak));
+    draw_text(room_width/2, 178, "DAY STREAK: " + string(lc_streak));
 
     for (var i = 0; i < 2; i++) {
         ui_button_draw(lc_btn_x[i], lc_btn_y, lc_btn_w[i], lc_btn_h, lc_btn_label[i], lc_hover == i);
