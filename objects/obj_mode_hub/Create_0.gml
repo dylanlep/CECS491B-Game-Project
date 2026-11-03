@@ -49,3 +49,6 @@ message_text = "";
 // SCRUM-29: load this player's coins + owned items (once per login)
 progress_init();
 if (!global.progress_loaded) progress_load();
+
+var _streak = scr_streak_get_data();
+profile_streak = _streak.count;

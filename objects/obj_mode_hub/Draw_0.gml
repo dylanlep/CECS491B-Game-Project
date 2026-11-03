@@ -34,6 +34,36 @@ if (global.progress_error != "" && message_text == "") {
     draw_text(room_width / 2, 170, global.progress_error);
 }
 
+
+//SCRUM-54 lvl, xp bar, streak display
+var _stats_loading = !global.progress_loaded;
+var _xp_in_level   = progress_xp_in_level();
+
+draw_set_halign(fa_center);
+draw_set_color(c_aqua);
+draw_text(219, 40, _stats_loading ? "LVL ..." : "LVL " + string(progress_level()));
+
+
+var _bar_x = 200;
+var _bar_y = 50;
+var _bar_w = room_width - 212;
+var _bar_h = 8;
+draw_set_color(c_dkgray);
+
+draw_rectangle(_bar_x, _bar_y, _bar_x + _bar_w, _bar_y + _bar_h, false);
+if (!_stats_loading) {
+    draw_set_color(c_lime);
+    draw_rectangle(_bar_x, _bar_y, _bar_x + _bar_w * (_xp_in_level / XP_PER_LEVEL), _bar_y + _bar_h, false);
+}
+
+draw_set_color(c_white);
+draw_rectangle(_bar_x, _bar_y, _bar_x + _bar_w, _bar_y + _bar_h, true);
+
+
+draw_set_color(c_orange);
+draw_text(room_width - 36, 68, string(profile_streak) + ((profile_streak == 1) ? " DAY" : " DAYS"));
+
+
 // Reset so other objects aren't affected
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
