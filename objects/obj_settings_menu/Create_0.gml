@@ -1,7 +1,7 @@
 //obj_settings_menu - create
 //hamburger icon menu
 is_open = false;
-
+open_guard = 0;
 
 width = 160;
 height = 100;

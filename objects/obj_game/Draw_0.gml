@@ -51,6 +51,46 @@ if (level_complete_open) {
     exit;
 }
 
+if (pause_settings_active) {
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, room_width, room_height, false);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_aqua);
+    draw_text(room_width/2, 30, "SETTINGS");
+    draw_set_color(c_gray);
+    draw_text(room_width/2, room_height - 14, "ESC = BACK");
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_set_color(c_white);
+    exit;
+}
+
+if (pause_open) {
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, room_width, room_height, false);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_aqua);
+    draw_text_transformed(room_width/2, 44, "PAUSED", 2, 2, 0);
+
+    for (var i = 0; i < array_length(pause_labels); i++) {
+        ui_button_draw(pause_btn_x, pause_btn_y0 + i * (pause_btn_h + pause_btn_gap),
+                       pause_btn_w, pause_btn_h, pause_labels[i], i == pause_selected);
+    }
+
+    if (pause_message != "") {
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
+        draw_set_color(c_red);
+        draw_text(room_width/2, 190, pause_message);
+    }
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_set_color(c_white);
+    exit;
+}
+
 if (account_open) {
     draw_set_color(c_black);
     draw_rectangle(0, 0, room_width, room_height, false);
@@ -141,6 +181,10 @@ if (feedback_text != "") {
     draw_set_color(feedback_is_hint ? c_aqua : c_red);
     draw_text_ext(room_width/2, feedback_y, feedback_text, -1, room_width - 12);
 }
+
+// PAUSE button
+ui_button_draw(pause_open_x, pause_open_y, pause_open_w, pause_open_h, pause_open_label,
+               ui_mouse_over(pause_open_x, pause_open_y, pause_open_w, pause_open_h));
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);

@@ -97,5 +97,32 @@ var _lc_row_w = lc_btn_w[0] + _lc_gap + lc_btn_w[1];
 lc_btn_x = [(room_width - _lc_row_w) / 2, 0];
 lc_btn_x[1] = lc_btn_x[0] + lc_btn_w[0] + _lc_gap;
 
+// ---------- Pause menu ----------
+pause_open            = false;
+pause_settings_active = false;   // true while the settings menu is open FROM the pause menu
+pause_selected        = 0;
+pause_hover           = -1;
+pause_message         = "";
+settings_was_open     = false;
+settings_prev_x       = 0;
+settings_prev_y       = 0;
+
+pause_labels = ["RESUME", "SETTINGS", "QUIT"];
+pause_btn_h   = 18;
+pause_btn_gap = 8;
+pause_btn_y0  = 80;
+pause_btn_w   = 110;
+for (var i = 0; i < array_length(pause_labels); i++) {
+    pause_btn_w = max(pause_btn_w, ui_button_width(pause_labels[i]));
+}
+pause_btn_x = (room_width - pause_btn_w) / 2;
+
+// Small PAUSE button (bottom-left, mirrors BACK)
+pause_open_label = "PAUSE";
+pause_open_w = ui_button_width(pause_open_label);
+pause_open_h = 16;
+pause_open_x = 4;
+pause_open_y = room_height - pause_open_h - 4;
+
 // ---------- Build the first lesson ----------
 scr_setup_lesson();

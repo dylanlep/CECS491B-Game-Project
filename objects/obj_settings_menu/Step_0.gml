@@ -3,11 +3,19 @@
 
 if (!visible) exit;
 
+// Lesson overlays own the input; the menu only runs there when opened from PAUSE
+if (room == rm_lesson && instance_exists(obj_game)) {
+    if (obj_game.pause_open || obj_game.level_complete_open || obj_game.account_open) exit;
+    depth = obj_game.pause_settings_active ? -10000 : 0;   // draw above the pause backdrop
+}
+
 var up_key = 0;
 var down_key = 0;
 var accept_key = 0;
 var _left_click = mouse_check_button_pressed(mb_left);
 var just_opened = false;
+
+if (open_guard > 0) { just_opened = true; open_guard--; }
 
 
 if (!is_open) {
@@ -54,6 +62,8 @@ if (is_open && global.menu_focus == "language") {
 	            }
 			
 	        }
+			
+			if (just_opened) accept_key = false;   // don't let the opening click/Space also pick an option
 	    }
 	}
 }

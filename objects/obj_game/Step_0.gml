@@ -1,5 +1,21 @@
 /// obj_game - Step Event
 
+// ---------- Track settings menu (pause -> settings -> back) ----------
+var _settings_open    = instance_exists(obj_settings_menu) && obj_settings_menu.is_open;
+var _settings_blocked = settings_was_open || _settings_open;   // also covers the frame it closes
+settings_was_open     = _settings_open;
+
+// Settings was opened from pause: wait for it to close, then return to pause
+if (pause_settings_active) {
+    if (!_settings_open) {
+        with (obj_settings_menu) { x = other.settings_prev_x; y = other.settings_prev_y; }
+        pause_settings_active = false;
+        pause_open     = true;
+        pause_selected = 1;
+    }
+    exit;
+}
+
 // ---------- Level Complete screen ----------
 if (level_complete_open) {
     lc_hover = -1;
@@ -16,6 +32,55 @@ if (level_complete_open) {
         scr_setup_lesson();          // fresh shuffled round
     } else if (_go_menu) {
         room_goto(rm_mode_hub);
+    }
+    exit;
+}
+
+// ---------- Pause menu ----------
+if (pause_open) {
+    pause_hover = -1;
+    var _pn = array_length(pause_labels);
+    for (var i = 0; i < _pn; i++) {
+        if (ui_mouse_over(pause_btn_x, pause_btn_y0 + i * (pause_btn_h + pause_btn_gap), pause_btn_w, pause_btn_h)) {
+            pause_hover = i;
+            pause_selected = i;
+        }
+    }
+    if (keyboard_check_pressed(vk_down)) pause_selected = (pause_selected + 1) mod _pn;
+    if (keyboard_check_pressed(vk_up))   pause_selected = (pause_selected - 1 + _pn) mod _pn;
+
+    var _act = -1;
+    if (keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space)) _act = pause_selected;
+    if (mouse_check_button_pressed(mb_left) && pause_hover != -1) _act = pause_hover;
+    if (keyboard_check_pressed(vk_escape)) _act = 0;
+
+    switch (_act) {
+        case 0: // RESUME
+            pause_open = false;
+            pause_message = "";
+            break;
+        case 1: // SETTINGS
+            if (instance_exists(obj_settings_menu)) {
+                with (obj_settings_menu) {
+                    other.settings_prev_x = x;
+                    other.settings_prev_y = y;
+                    x = 48; y = 60;              // centered while paused
+                    is_open = true;
+                    global.menu_focus = "language";
+                    menu_level = 0;
+                    pos = 0;
+                    open_guard = 1;              // ignore the click/key that opened it
+                }
+                pause_open = false;
+                pause_settings_active = true;
+                pause_message = "";
+            } else {
+                pause_message = "SETTINGS UNAVAILABLE";
+            }
+            break;
+        case 2: // QUIT
+            room_goto(rm_mode_hub);
+            break;
     }
     exit;
 }
@@ -118,6 +183,19 @@ if (account_open) {
         account_active_field = (account_active_field == 1) ? 2 : 1;
         keyboard_string = (account_active_field == 1) ? account_email_input : account_password_input;
     }
+    exit;
+}
+
+// ---------- Open pause (ESC or PAUSE button) ----------
+var _any_drag = false;
+with (obj_block) { if (dragging) _any_drag = true; }
+if (!_any_drag && !_settings_blocked
+&& (keyboard_check_pressed(vk_escape)
+    || (mouse_check_button_pressed(mb_left)
+        && ui_mouse_over(pause_open_x, pause_open_y, pause_open_w, pause_open_h)))) {
+    pause_open     = true;
+    pause_selected = 0;
+    pause_message  = "";
     exit;
 }
 

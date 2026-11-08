@@ -4,7 +4,9 @@
 
 
 if (!is_open) {
-	draw_self();
+    var _hide = (room == rm_lesson && instance_exists(obj_game)
+        && (obj_game.pause_open || obj_game.level_complete_open || obj_game.account_open));
+    if (!_hide) draw_self();
     exit;
 }
 

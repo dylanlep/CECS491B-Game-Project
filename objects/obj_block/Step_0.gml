@@ -1,6 +1,7 @@
 /// obj_block - Step Event
 
-if (instance_exists(obj_game) && (obj_game.account_open || obj_game.level_complete_open)) exit;
+if (instance_exists(obj_game) && (obj_game.account_open || obj_game.level_complete_open
+    || obj_game.pause_open || obj_game.pause_settings_active)) exit;
 
 var mx = mouse_x;
 var my = mouse_y;
