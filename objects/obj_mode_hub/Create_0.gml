@@ -5,7 +5,7 @@
 
 title_text = "CHOOSE A MODE";
 
-var _modes  = ["STORY", "PRACTICE", "CHALLENGE", "QUIZ", "BOSS"];
+var _modes  = ["STORY", "PRACTICE", "CHALLENGE", "QUIZ", "BOSS", "LEADERBOARD"];
 var _extras = ["SHOP", "PROFILE"];
 
 // Every button gets its own label, x, y and width, stored in matching lists.

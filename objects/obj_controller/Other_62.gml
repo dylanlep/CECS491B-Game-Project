@@ -25,6 +25,22 @@ if (global.pending_auth_mode == "auto_login") {
         ini_open("saved_login.ini");
         global.supabase_access_token = ini_read_string("Data", "token", "");
         ini_close();
+		
+		//extract & save the user id...
+		if (ds_map_exists(_data, "id")) {
+			global.user_id = _data[? "id"];
+			
+		} else if (ds_map_exists(_data, "user")) {
+            var _user_map = _data[? "user"];
+			
+            if (is_numeric(_user_map) && ds_exists(_user_map, ds_type_map)) {
+                if (ds_map_exists(_user_map, "id")) {
+                    global.user_id = _user_map[? "id"];
+					
+                }
+            }
+        }
+		
         
         if (instance_exists(obj_login)) {
 			obj_login.message_text = "Welcome";

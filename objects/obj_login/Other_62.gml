@@ -47,6 +47,16 @@ if (_has_access_token || _has_user) {
     if (_has_access_token) {
         global.supabase_access_token = ds_map_find_value(_data, "access_token");
 		
+		
+		//saves user id...
+		if (ds_map_exists(_data, "user")) {
+        var _user_map = _data[? "user"];
+		
+        if (is_numeric(_user_map) && ds_exists(_user_map, ds_type_map)) {
+            global.user_id = _user_map[? "id"];
+        }
+    }
+		
 		//save token to ini file (For persistent login)
 		ini_open("saved_login.ini");
         ini_write_string("Data", "token", global.supabase_access_token);

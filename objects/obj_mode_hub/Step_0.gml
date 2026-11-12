@@ -24,7 +24,10 @@ if (_clicked < mode_count) {
     global.selected_mode = _label;      // remembered for the lesson to use later
     if (_label == "STORY") {
         room_goto(rm_lesson);
-    } else {
+    } else if (_label == "LEADERBOARD") {
+		//SCRUM-43
+		room_goto(rm_leaderboard);
+	} else {
         message_text = _label + " MODE COMING SOON";
     }
     exit;
