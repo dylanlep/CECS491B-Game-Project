@@ -14,6 +14,7 @@ base_color     = c_white;      // overwritten right after spawn
 dragging   = false;
 drag_off_x = 0;
 drag_off_y = 0;
+drag_from_slot = -1;   // SCRUM-58: slot this block was picked up from (-1 = bank)
 
 // ---------- Hover bounce ----------
 is_hovered    = false;
