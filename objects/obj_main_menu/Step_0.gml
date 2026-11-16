@@ -1,5 +1,8 @@
 /// obj_main_menu - Step
 
+// SCRUM-52: freeze the title screen while the settings panel is open
+if (instance_exists(obj_audio_settings)) exit;
+
 var _count   = array_length(buttons);
 var _clicked = -1;   // which button was activated this frame (-1 = none)
 
@@ -20,6 +23,7 @@ for (var i = 0; i < _count; i++) {
 // --- Do what the chosen button says ---
 switch (_clicked) {
     case 0: // START
+        sfx_play(snd_click);   // SCRUM-52
         var _logged_in = variable_global_exists("supabase_access_token")
                       && global.supabase_access_token != "";
         if (_logged_in) {
@@ -29,7 +33,8 @@ switch (_clicked) {
         }
         break;
 
-    case 1: // SETTINGS
-        message_text = "SETTINGS COMING SOON";
+    case 1: // SETTINGS (SCRUM-52)
+        sfx_play(snd_click);
+        instance_create_depth(0, 0, -10000, obj_audio_settings);
         break;
 }
