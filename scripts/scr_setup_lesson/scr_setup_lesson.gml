@@ -22,6 +22,8 @@ function scr_setup_lesson() {
 	correct_answer = lesson_tokens[current_lesson];
 	word_count = array_length(correct_answer);
 
+	// SCRUM-49: concept card before each Python level (see scr_concept_cards)
+	concept_card_check();
 	// =====================================================================
 	// PART 1 — lay out the answer slots (always in correct order, empty)
 	// =====================================================================
