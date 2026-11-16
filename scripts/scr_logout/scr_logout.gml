@@ -33,13 +33,18 @@ function logout_send_request() {
 
 /// Erases everything the game remembers about the logged-in player.
 function logout_clear_local_session() {
+    // SCRUM-9 / SCRUM-35: forget the saved login (Emmanuel's persistent login),
+    // so the next person on this computer isn't automatically logged in as this player.
+    if (file_exists("saved_login.ini")) file_delete("saved_login.ini");
+
     global.supabase_access_token = "";
-    global.email         = "";   // shown on the profile screen
-    progress_clear();                    // SCRUM-29: forget coins/items on this device (Supabase keeps them)
-	global.refresh_token = "";
-	global.username = "";
-    global.user_id       = "";
-    global.auth_token    = "";   // older name used on em_branch; harmless to clear
+    global.refresh_token         = "";
+    global.email                 = "";   // shown on the profile screen
+    global.user_email            = "";   // saved by the team's email login
+    global.username              = "";
+    global.user_id               = "";
+    global.auth_token            = "";   // older name used on em_branch; harmless to clear
+    progress_clear();                    // SCRUM-29/47: forget coins/XP/items on this device (Supabase keeps them)
 }
 
 /// Final step: clear the session, leave a message for the login screen, go there.
