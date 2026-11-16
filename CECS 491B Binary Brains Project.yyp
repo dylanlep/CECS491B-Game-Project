@@ -36,6 +36,7 @@
     {"id":{"name":"obj_main_menu","path":"objects/obj_main_menu/obj_main_menu.yy",},},
     {"id":{"name":"obj_mode_hub","path":"objects/obj_mode_hub/obj_mode_hub.yy",},},
     {"id":{"name":"obj_profile","path":"objects/obj_profile/obj_profile.yy",},},
+    {"id":{"name":"obj_reset_button","path":"objects/obj_reset_button/obj_reset_button.yy",},},
     {"id":{"name":"obj_settings_menu","path":"objects/obj_settings_menu/obj_settings_menu.yy",},},
     {"id":{"name":"obj_shop","path":"objects/obj_shop/obj_shop.yy",},},
     {"id":{"name":"rm_lesson","path":"rooms/rm_lesson/rm_lesson.yy",},},
