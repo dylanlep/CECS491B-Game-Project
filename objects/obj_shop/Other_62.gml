@@ -1,2 +1,2 @@
-/// obj_shop - Async HTTP
+// obj_shop - Async HTTP
 progress_handle_async();

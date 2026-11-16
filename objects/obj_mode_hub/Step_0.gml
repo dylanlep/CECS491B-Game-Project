@@ -1,7 +1,13 @@
 /// obj_mode_hub - Step
 
+// SCRUM-47: freeze the hub while the cheat pop-up is open
+if (instance_exists(obj_cheat_popup)) exit;
+
 // SCRUM-38/39: freeze the hub while the friends screen is open
 if (instance_exists(obj_friends_menu)) exit;
+
+// SCRUM-47: demo keys 1-4 (see scr_cheat; turn off with CHEAT_DEMO_KEYS = false)
+cheat_demo_keys();
 
 var _count   = array_length(btn_label);
 var _clicked = -1;

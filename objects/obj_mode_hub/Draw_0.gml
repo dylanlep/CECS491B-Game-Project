@@ -34,6 +34,8 @@ if (global.progress_error != "" && message_text == "") {
     draw_text(room_width / 2, 170, global.progress_error);
 }
 
+// SCRUM-47: demo key hint line
+cheat_demo_draw();
 // Reset so other objects aren't affected
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
