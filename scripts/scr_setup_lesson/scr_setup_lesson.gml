@@ -129,3 +129,4 @@ function scr_setup_lesson() {
 	feedback_is_hint = false;
 	mistake_count  = 0; // for calculating how much score u get
 }
+
