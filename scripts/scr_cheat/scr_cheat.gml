@@ -37,3 +37,52 @@ function cheat_popup_show(_attempt, _name) {
     var _popup = instance_create_depth(0, 0, -20000, obj_cheat_popup);
     _popup.message = cheat_message(_attempt, _name);
 }
+
+
+
+// =====================================================================
+// SCRUM-47 DEMO KEYS - an easy way to SHOW the anti-cheat (class demo / testing).
+// On the Mode Hub:  1 = pop-up only   2 = fake coins (then BUY in the SHOP)
+//                   3 = impossible reward   4 = fake item
+// Set CHEAT_DEMO_KEYS to false to turn the keys and the hint line off.
+// (Safe to leave on: every cheat is still caught and logged by the server.)
+// =====================================================================
+#macro CHEAT_DEMO_KEYS true
+
+function cheat_demo_keys() {
+    if (!CHEAT_DEMO_KEYS) return;
+
+    // 1 = show the pop-up directly (no server involved)
+    if (keyboard_check_pressed(ord("1"))) {
+        if (!variable_global_exists("demo_cheat_attempt")) global.demo_cheat_attempt = 0;
+        global.demo_cheat_attempt++;
+        var _name = "TESTER";
+        if (variable_global_exists("username") && is_string(global.username) && global.username != "") _name = global.username;
+        cheat_popup_show(global.demo_cheat_attempt, _name);
+    }
+    // 2 = pretend coins were edited in memory (caught on the next BUY in the SHOP)
+    if (keyboard_check_pressed(ord("2"))) global.coins = 9999;
+    // 3 = ask the server for an impossible reward
+    if (keyboard_check_pressed(ord("3"))) global.progress_earn_id = progress_rpc("earn_coins", { p_amount: 99999 });
+    // 4 = try to buy an item that doesn't exist
+    if (keyboard_check_pressed(ord("4"))) {
+        global.progress_buy_item = "GOLDEN UNICORN";
+        global.progress_buy_id   = progress_rpc("buy_item", { p_item: "GOLDEN UNICORN" });
+    }
+}
+
+/// Small grey hint in the bottom-left corner of the Mode Hub (left of LOGOUT),
+/// so testers know the keys exist.
+function cheat_demo_draw() {
+    if (!CHEAT_DEMO_KEYS) return;
+    var _t = "DEMO: 1 POP-UP  2 FAKE COINS  3 BIG REWARD  4 FAKE ITEM";
+    draw_set_font(fnt_pixel);
+    var _max_w = room_width - 84;                               // leave room for LOGOUT on the right
+    var _s = min(1, _max_w / max(1, string_width(_t)));
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_gray);
+    draw_text_transformed(4, room_height - 12, _t, _s, _s, 0);
+    draw_set_valign(fa_top);
+    draw_set_color(c_white);
+}
