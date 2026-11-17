@@ -183,7 +183,7 @@ if (mouse_check_button_pressed(mb_left)) {
 	        var xp_earned = max(min_xp, base_xp - (mistake_count * mistake_penalty));
 	        language_scores[current_lesson] += xp_earned;
 	        progress_earn(xp_earned);
-        scr_streak_record_lesson();
+	        scr_streak_record_lesson();
 
 	        scr_setup_lesson(); // new shuffled round — also resets mistake_count + feedback
 

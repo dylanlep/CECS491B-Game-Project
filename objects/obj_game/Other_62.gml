@@ -1,5 +1,6 @@
 // Handle coin/XP RPC responses while gameplay is open.
 progress_handle_async();
+scr_streak_handle_async();
 
 var _request_id = async_load[? "id"];
 if (_request_id != account_request_id) exit;

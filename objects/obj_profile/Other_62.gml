@@ -1,6 +1,7 @@
 /// obj_profile - Async HTTP
 
 progress_handle_async();   // coins / XP load (ignores IDs that aren't its own)
+scr_streak_handle_async();
 
 var _id = async_load[? "id"];
 if (_id != profile_load_id && _id != save_request_id) exit;   // not ours

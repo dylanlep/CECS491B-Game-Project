@@ -1,5 +1,11 @@
 /// obj_mode_hub - Step
 
+// Keep the login streak notice visible briefly, then dismiss it.
+if (variable_global_exists("streak_notice") && global.streak_notice) {
+    global.streak_notice_timer -= 1;
+    if (global.streak_notice_timer <= 0) global.streak_notice = false;
+}
+
 // SCRUM-47: freeze the hub while the cheat pop-up is open
 if (instance_exists(obj_cheat_popup)) exit;
 

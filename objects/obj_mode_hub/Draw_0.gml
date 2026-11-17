@@ -12,8 +12,17 @@ for (var i = 0; i < array_length(btn_label); i++) {
     ui_button_draw(btn_x[i], btn_y[i], btn_w[i], btn_h, btn_label[i], i == selected);
 }
 
+// SCRUM-59: show the missed-day notice after Supabase checks the streak.
+if (variable_global_exists("streak_notice") && global.streak_notice) {
+    draw_set_font(fnt_pixel);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_red);
+    draw_text(room_width / 2, 166, "STREAK LOST!");
+    draw_set_color(c_yellow);
+    draw_text(room_width / 2, 181, "COMPLETE A LESSON TODAY");
 // Message between the modes and the bottom row
-if (message_text != "") {
+} else if (message_text != "") {
     draw_set_font(fnt_pixel);
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
