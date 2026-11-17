@@ -5,7 +5,7 @@
 /// totals itself. Dylan H's XP / level functions are unchanged.
 
 #macro XP_PER_LEVEL 100      // every 100 XP = 1 level
-#macro EARN_MAX_SEND 100     // most coins the game asks for per lesson visit (server limit is the same)
+#macro EARN_MAX_SEND 100     // server limit per earn request
 
 /// Makes sure every global this script uses exists.
 function progress_init() {
@@ -19,6 +19,8 @@ function progress_init() {
     // SCRUM-47
     if (!variable_global_exists("progress_buy_id"))       global.progress_buy_id = -1;
     if (!variable_global_exists("progress_earn_id"))      global.progress_earn_id = -1;
+    if (!variable_global_exists("progress_earn_queue"))    global.progress_earn_queue = 0;
+    if (!variable_global_exists("progress_earn_pending"))  global.progress_earn_pending = 0;
     if (!variable_global_exists("progress_report_id"))    global.progress_report_id = -1;
     if (!variable_global_exists("progress_buy_item"))     global.progress_buy_item = "";
     if (!variable_global_exists("progress_buy_result"))   global.progress_buy_result = "";
@@ -53,14 +55,19 @@ function progress_headers(_token) {
     return _h;
 }
 
-/// Calls a Supabase server function. Returns the request id, or -1.
-function progress_rpc(_function, _args) {
+/// Calls a Supabase server function with a JSON body. Returns the request id, or -1.
+function progress_rpc_body(_function, _body) {
     var _token = progress_token();
     if (_token == "") return -1;
     var _h = progress_headers(_token);
-    var _id = http_request(SUPABASE_URL + "/rest/v1/rpc/" + _function, "POST", _h, json_stringify(_args));
+    var _id = http_request(SUPABASE_URL + "/rest/v1/rpc/" + _function, "POST", _h, _body);
     ds_map_destroy(_h);
     return _id;
+}
+
+/// Calls a Supabase server function with a GML struct argument.
+function progress_rpc(_function, _args) {
+    return progress_rpc_body(_function, json_stringify(_args));
 }
 
 /// Ask Supabase for this player's coins, XP and owned items (reading is still allowed).
@@ -113,12 +120,31 @@ function progress_buy(_name, _price) {
     return (global.progress_buy_id == -1) ? "error" : "pending";
 }
 
-/// Asks the server to add earned coins + XP (1 XP = 1 coin). The server applies the limits.
+/// Sends the next queued integer reward to the server.
+function progress_earn_send_next() {
+    progress_init();
+    if (global.progress_earn_id != -1 || global.progress_earn_queue <= 0) return;
+
+    var _amount = min(floor(global.progress_earn_queue), EARN_MAX_SEND);
+    var _body = "{\"p_amount\":" + string(_amount) + "}";
+    var _id = progress_rpc_body("earn_coins", _body);
+    if (_id != -1) {
+        global.progress_earn_queue -= _amount;
+        global.progress_earn_pending = _amount;
+        global.progress_earn_id = _id;
+    }
+}
+
+/// Queues earned coins and XP (1 XP = 1 coin). The server applies the limits.
 function progress_earn(_amount) {
     progress_init();
     if (progress_tamper_check()) return;
-    if (_amount <= 0) return;
-    global.progress_earn_id = progress_rpc("earn_coins", { p_amount: min(floor(_amount), EARN_MAX_SEND) });
+
+    var _integer_amount = floor(_amount);
+    if (_integer_amount <= 0) return;
+
+    global.progress_earn_queue += _integer_amount;
+    progress_earn_send_next();
 }
 
 /// Copies coins / XP / owned items from a server answer into the game.
@@ -145,6 +171,8 @@ function progress_clear() {
     global.progress_save_id      = -1;
     global.progress_buy_id       = -1;
     global.progress_earn_id      = -1;
+    global.progress_earn_queue   = 0;
+    global.progress_earn_pending = 0;
     global.progress_report_id    = -1;
     global.progress_buy_item     = "";
     global.progress_buy_result   = "";
@@ -164,9 +192,13 @@ function progress_handle_async() {
     if (!_is_load && !_is_buy && !_is_earn && !_is_report) return;   // not ours
     if (async_load[? "status"] == 1) return;                          // still downloading
 
+    var _earn_pending = _is_earn ? global.progress_earn_pending : 0;
     if (_is_load)   global.progress_load_id   = -1;
     if (_is_buy)    global.progress_buy_id    = -1;
-    if (_is_earn)   global.progress_earn_id   = -1;
+    if (_is_earn) {
+        global.progress_earn_id = -1;
+        global.progress_earn_pending = 0;
+    }
     if (_is_report) global.progress_report_id = -1;
 
     var _http = async_load[? "http_status"];
@@ -177,6 +209,7 @@ function progress_handle_async() {
     if (!_ok) {
         global.progress_error = _is_load ? "COULD NOT LOAD PROGRESS" : "COULD NOT SAVE (" + string(_http) + ")";
         if (_is_buy) global.progress_buy_result = "error";
+        if (_is_earn) global.progress_earn_queue += _earn_pending;
         show_debug_message("Progress request failed: HTTP " + string(_http) + " " + string(async_load[? "result"]));
         return;
     }
@@ -203,5 +236,10 @@ function progress_handle_async() {
         return;
     }
     if (_is_buy) global.progress_buy_result = _status;     // "bought", "owned" or "poor"
-    if (_is_earn && _status == "limited") global.progress_error = "DAILY COIN LIMIT REACHED";
+    if (_is_earn && _status == "limited") {
+        global.progress_error = "DAILY COIN LIMIT REACHED";
+        global.progress_earn_queue = 0;
+    } else if (_is_earn) {
+        progress_earn_send_next();
+    }
 }
