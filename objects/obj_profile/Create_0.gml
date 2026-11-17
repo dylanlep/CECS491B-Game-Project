@@ -1,5 +1,5 @@
 /// obj_profile - Create Event
-// Profile screen (256x240 pixel UI) with a BACK button and an Edit Account popup.
+// Profile screen (256x240 pixel UI), with account editing and achievements submenu.
 // Account data lives in Supabase Auth: email, password, and username (user_metadata.username).
 
 gpu_set_texfilter(false);
@@ -25,8 +25,12 @@ pending_email    = "";   // the email we asked to change to (if any)
 // ---------- Main screen buttons ----------
 edit_label = "EDIT ACCOUNT";
 edit_w = ui_button_width(edit_label);
+achievements_label = "BADGES";
+achievements_w = ui_button_width(achievements_label);
+profile_button_gap = 6;
 edit_h = 18;
-edit_x = (room_width - edit_w) / 2;
+edit_x = (room_width - (edit_w + profile_button_gap + achievements_w)) / 2;
+achievements_x = edit_x + edit_w + profile_button_gap;
 edit_y = 188;
 
 back_label = "BACK";
@@ -36,7 +40,34 @@ back_x = room_width  - back_w - 4;
 back_y = room_height - back_h - 4;
 
 hover_edit = false;
+hover_achievements = false;
 hover_back = false;
+
+// ---------- Earned achievements submenu ----------
+achievements_open = false;
+achievements_request_id = -1;
+achievements_loaded = false;
+achievements_data = [];
+achievements_error = "";
+achievements_scroll = 0;
+achievements_back_label = "BACK";
+achievements_back_w = ui_button_width(achievements_back_label);
+achievements_back_h = 16;
+achievements_back_x = (room_width - achievements_back_w) / 2;
+achievements_back_y = 210;
+hover_achievements_back = false;
+
+load_achievements = function() {
+    if (achievements_request_id != -1 || achievements_loaded) return;
+    if (progress_token() == "") {
+        achievements_error = "PLEASE LOG IN AGAIN";
+        return;
+    }
+
+    achievements_error = "";
+    achievements_request_id = progress_rpc("get_my_achievements", {});
+    if (achievements_request_id == -1) achievements_error = "COULD NOT LOAD BADGES";
+};
 
 // ---------- Edit Account popup ----------
 edit_open          = false;

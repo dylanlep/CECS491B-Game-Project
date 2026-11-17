@@ -1,5 +1,31 @@
 /// obj_profile - Step Event
 
+if (achievements_open) {
+    hover_achievements_back = ui_mouse_over(
+        achievements_back_x, achievements_back_y, achievements_back_w, achievements_back_h);
+
+    if (keyboard_check_pressed(vk_escape)) {
+        achievements_open = false;
+        hover_achievements_back = false;
+        exit;
+    }
+
+    if (keyboard_check_pressed(vk_up)) achievements_scroll = max(0, achievements_scroll - 1);
+    if (keyboard_check_pressed(vk_down)) {
+        achievements_scroll = min(max(0, array_length(achievements_data) - 3), achievements_scroll + 1);
+    }
+
+    if (mouse_check_button_pressed(mb_left) && hover_achievements_back) {
+        achievements_open = false;
+        hover_achievements_back = false;
+    }
+
+    hover_edit = false;
+    hover_achievements = false;
+    hover_back = false;
+    exit;
+}
+
 if (edit_open) {
     // ---------------- Edit Account popup ----------------
     hover_save   = ui_mouse_over(save_x,   popup_btn_y, save_w,   popup_btn_h);
@@ -55,6 +81,7 @@ if (edit_open) {
 
 // ---------------- Main profile screen ----------------
 hover_edit = ui_mouse_over(edit_x, edit_y, edit_w, edit_h);
+hover_achievements = ui_mouse_over(achievements_x, edit_y, achievements_w, edit_h);
 hover_back = ui_mouse_over(back_x, back_y, back_w, back_h);
 
 if (mouse_check_button_pressed(mb_left)) {
@@ -76,6 +103,10 @@ if (mouse_check_button_pressed(mb_left)) {
             edit_message  = "";
             profile_message = "";
         }
+    } else if (hover_achievements) {
+        achievements_open = true;
+        achievements_scroll = 0;
+        load_achievements();
     }
 }
 if (keyboard_check_pressed(vk_escape)) room_goto(return_room);
