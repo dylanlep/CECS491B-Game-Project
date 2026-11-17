@@ -292,7 +292,7 @@ if (mouse_check_button_pressed(mb_left)) {
 	    lc_xp       = xp_earned;
 	    lc_coins    = coins_earned;
 	    lc_mistakes = mistake_count;
-	    lc_streak   = _streak;
+	    lc_streak   = global.user_streak;
 	    lc_lang     = lesson_names[current_lesson];
 		lc_hints    = hints_used;
 	    lc_time     = round_frames / game_get_speed(gamespeed_fps);

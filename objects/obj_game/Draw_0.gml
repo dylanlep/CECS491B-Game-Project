@@ -39,7 +39,7 @@ if (level_complete_open) {
     draw_text(room_width/2, 160, "TOTAL COINS: " + string(global.coins));
 
     draw_set_color(c_orange);
-    draw_text(room_width/2, 178, "DAY STREAK: " + string(lc_streak));
+    draw_text(room_width/2, 178, "DAY STREAK: " + string(global.user_streak));
 
     for (var i = 0; i < 2; i++) {
         ui_button_draw(lc_btn_x[i], lc_btn_y, lc_btn_w[i], lc_btn_h, lc_btn_label[i], lc_hover == i);
