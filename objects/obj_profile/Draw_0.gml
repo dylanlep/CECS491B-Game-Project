@@ -85,6 +85,7 @@ draw_text(room_width - 12, 174, _loading ? "..." : ((display_created == "") ? "-
 
 // ---------- Buttons ----------
 ui_button_draw(edit_x, edit_y, edit_w, edit_h, edit_label, hover_edit);
+ui_button_draw(achievements_x, edit_y, achievements_w, edit_h, achievements_label, hover_achievements);
 ui_button_draw(back_x, back_y, back_w, back_h, back_label, hover_back);
 
 // ---------- Status message ----------
@@ -93,6 +94,75 @@ if (profile_message != "") {
     draw_set_valign(fa_top);
     draw_set_color(profile_message_color);
     draw_text_ext(room_width / 2, 210, profile_message, -1, room_width - 16);
+}
+
+// ---------- Earned achievements submenu ----------
+if (achievements_open) {
+    var _achievement_panel = make_color_rgb(26, 26, 58);
+    draw_set_color(c_black);
+    draw_rectangle(0, 0, room_width, room_height, false);
+    draw_set_color(c_aqua);
+    draw_rectangle(8, 4, room_width - 8, room_height - 4, false);
+    draw_set_color(_achievement_panel);
+    draw_rectangle(10, 6, room_width - 10, room_height - 6, false);
+
+    draw_set_font(fnt_pixel);
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_set_color(c_aqua);
+    draw_text(room_width / 2, 18, "ACHIEVEMENTS");
+    draw_set_color(c_gray);
+    draw_line(16, 28, room_width - 16, 28);
+
+    if (achievements_request_id != -1) {
+        draw_set_color(c_yellow);
+        draw_text(room_width / 2, 96, "LOADING BADGES...");
+    } else if (achievements_error != "") {
+        draw_set_color(c_red);
+        draw_text_ext(room_width / 2, 82, achievements_error, -1, room_width - 32);
+    } else if (achievements_loaded && array_length(achievements_data) == 0) {
+        draw_set_color(c_white);
+        draw_text(room_width / 2, 82, "NO BADGES YET");
+        draw_set_color(c_gray);
+        draw_text(room_width / 2, 98, "KEEP COMPLETING LESSONS");
+    } else if (achievements_loaded) {
+        var _achievement_count = array_length(achievements_data);
+        var _visible_rows = min(3, _achievement_count - achievements_scroll);
+
+        for (var i = 0; i < _visible_rows; i++) {
+            var _achievement = achievements_data[achievements_scroll + i];
+            var _row_y = 34 + i * 48;
+
+            draw_set_color(c_gray);
+            draw_rectangle(16, _row_y, room_width - 16, _row_y + 42, false);
+            draw_set_color(c_yellow);
+            draw_rectangle(21, _row_y + 8, 41, _row_y + 28, false);
+            draw_set_halign(fa_center);
+            draw_set_color(c_black);
+            var _badge_key = variable_struct_exists(_achievement, "badge_key")
+                ? string_upper(_achievement.badge_key) : "*";
+            draw_text(31, _row_y + 18, string_copy(_badge_key, 1, 2));
+
+            draw_set_halign(fa_left);
+            draw_set_color(c_white);
+            var _achievement_name = variable_struct_exists(_achievement, "name")
+                ? string_upper(_achievement.name) : "ACHIEVEMENT";
+            draw_text(48, _row_y + 10, clip_text(_achievement_name, 24));
+
+            draw_set_color(c_gray);
+            var _achievement_description = variable_struct_exists(_achievement, "description")
+                ? string_upper(_achievement.description) : "";
+            draw_text(48, _row_y + 27, clip_text(_achievement_description, 25));
+        }
+
+        draw_set_halign(fa_center);
+        draw_set_color(c_gray);
+        draw_text(room_width / 2, 180, string(_achievement_count) + " EARNED");
+        if (_achievement_count > 3) draw_text(room_width / 2, 194, "UP/DOWN TO SCROLL");
+    }
+
+    ui_button_draw(achievements_back_x, achievements_back_y,
+        achievements_back_w, achievements_back_h, achievements_back_label, hover_achievements_back);
 }
 
 // ---------- Edit Account popup ----------
