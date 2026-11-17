@@ -1,8 +1,31 @@
 /// obj_profile - Async HTTP
 
 progress_handle_async();   // coins / XP load (ignores IDs that aren't its own)
+scr_streak_handle_async();
 
 var _id = async_load[? "id"];
+if (_id == achievements_request_id) {
+    if (async_load[? "status"] == 1) exit;
+
+    achievements_request_id = -1;
+    var _ach_status = async_load[? "status"];
+    var _ach_http = async_load[? "http_status"];
+    var _ach_ok = (_ach_status == 0) && _ach_http >= 200 && _ach_http < 300;
+    var _ach_data = undefined;
+    try { _ach_data = json_parse(async_load[? "result"]); } catch (_e) { _ach_data = undefined; }
+
+    if (_ach_ok && is_array(_ach_data)) {
+        achievements_data = _ach_data;
+        achievements_loaded = true;
+        achievements_error = "";
+    } else {
+        achievements_error = "COULD NOT LOAD BADGES";
+        show_debug_message("Achievements request failed: HTTP " + string(_ach_http)
+            + " " + string(async_load[? "result"]));
+    }
+    exit;
+}
+
 if (_id != profile_load_id && _id != save_request_id) exit;   // not ours
 if (async_load[? "status"] == 1) exit;                         // still downloading
 

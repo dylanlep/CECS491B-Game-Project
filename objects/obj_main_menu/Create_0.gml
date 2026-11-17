@@ -18,7 +18,12 @@ btn_width = max(btn_width, 96);              // never narrower than 96 px
 btn_x  = (room_width - btn_width) / 2;       // centered
 btn_y0 = 120;                                // top of the first button
 
-message_text = "";     // e.g. "SETTINGS COMING SOON"
+message_text = "";
+
+// SCRUM-52: load the saved audio settings and start the music manager
+// (obj_audio_manager is persistent, so the music keeps playing in every room)
+audio_settings_init();
+if (!instance_exists(obj_audio_manager)) instance_create_depth(0, 0, 0, obj_audio_manager);
 
 // SCRUM-7: just came back from Google sign-in? Let the login screen read the result.
 if (os_browser != browser_not_a_browser

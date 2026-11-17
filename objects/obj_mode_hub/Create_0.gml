@@ -1,12 +1,12 @@
 /// obj_mode_hub - Create
 // Game Mode Hub (SCRUM-15): home screen after login.
-// 5 game modes in a column, SHOP + PROFILE in a row at the bottom.
+// 5 game modes in a column, SHOP + FRIENDS + PROFILE in a row at the bottom.
 // (LOGOUT is your existing obj_logout_button, placed in the room.)
 
 title_text = "CHOOSE A MODE";
 
 var _modes  = ["STORY", "PRACTICE", "CHALLENGE", "QUIZ", "BOSS"];
-var _extras = ["SHOP", "PROFILE"];
+var _extras = ["SHOP", "FRIENDS", "PROFILE"];   // SCRUM-38/39: FRIENDS
 
 // Every button gets its own label, x, y and width, stored in matching lists.
 btn_label = [];
@@ -49,3 +49,7 @@ message_text = "";
 // SCRUM-29: load this player's coins + owned items (once per login)
 progress_init();
 if (!global.progress_loaded) progress_load();
+
+// SCRUM-59: load this account's streak from Supabase on login.
+scr_streak_init();
+if (!global.streak_loaded) scr_streak_load();

@@ -22,6 +22,8 @@ function scr_setup_lesson() {
 	correct_answer = lesson_tokens[current_lesson];
 	word_count = array_length(correct_answer);
 
+	// SCRUM-49: concept card before each Python level (see scr_concept_cards)
+	concept_card_check();
 	// =====================================================================
 	// PART 1 — lay out the answer slots (always in correct order, empty)
 	// =====================================================================
@@ -97,14 +99,19 @@ function scr_setup_lesson() {
 	// PART 3 — position the Hint and Check buttons below everything
 	// =====================================================================
 
+	reset_btn_width  = 54;   // SCRUM-58: RESET button (left of HINT)
 	hint_btn_width   = 54;
 	check_btn_width  = 60;
 	check_btn_height = 16;
 	hint_btn_height  = check_btn_height;
 	control_gap = 6;
-	controls_width = hint_btn_width + control_gap + check_btn_width;
-	hint_btn_x1 = (room_width - controls_width) / 2;
-	hint_btn_y1 = bank_area_bottom + 8;
+	controls_width = reset_btn_width + control_gap + hint_btn_width + control_gap + check_btn_width;
+	reset_btn_x1 = (room_width - controls_width) / 2;
+	reset_btn_y1 = bank_area_bottom + 8;
+	reset_btn_x2 = reset_btn_x1 + reset_btn_width;
+	reset_btn_y2 = reset_btn_y1 + check_btn_height;
+	hint_btn_x1 = reset_btn_x2 + control_gap;
+	hint_btn_y1 = reset_btn_y1;
 	hint_btn_x2 = hint_btn_x1 + hint_btn_width;
 	hint_btn_y2 = hint_btn_y1 + hint_btn_height;
 	check_btn_x1 = hint_btn_x2 + control_gap;
@@ -114,6 +121,9 @@ function scr_setup_lesson() {
 
 	feedback_y = check_btn_y2 + 8;
 
+	// SCRUM-58: the RESET button draws and handles itself (obj_reset_button)
+	if (!instance_exists(obj_reset_button)) instance_create_depth(0, 0, -50, obj_reset_button);
+
 	feedback_text  = "";
 	feedback_timer = 0;
 	feedback_is_hint = false;
@@ -121,3 +131,4 @@ function scr_setup_lesson() {
 	hints_used     = 0;
 	round_frames   = 0;
 }
+

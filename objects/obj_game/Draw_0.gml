@@ -134,6 +134,9 @@ draw_set_halign(fa_right);
 draw_set_valign(fa_top);
 draw_set_color(c_white);
 draw_text(room_width - 4, 4, "XP: " + string(language_scores[current_lesson]));
+if (variable_global_exists("coins")) {
+    draw_text(room_width - 4, 20, "COINS: " + string(global.coins));
+}
 
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
