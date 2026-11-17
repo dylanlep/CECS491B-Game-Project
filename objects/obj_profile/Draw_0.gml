@@ -69,7 +69,11 @@ draw_set_color(c_gray);
 draw_text(12, 160, "STREAK");
 draw_set_halign(fa_right);
 draw_set_color(c_orange);
-draw_text(room_width - 12, 160, string(profile_streak) + ((profile_streak == 1) ? " DAY" : " DAYS"));
+var _streak_data = scr_streak_get_data();
+var _streak_text = _streak_data.loading ? "..."
+    : ((_streak_data.error != "") ? "UNAVAILABLE" : string(_streak_data.count)
+    + ((_streak_data.count == 1) ? " DAY" : " DAYS"));
+draw_text(room_width - 12, 160, _streak_text);
 
 // Account created
 draw_set_halign(fa_left);

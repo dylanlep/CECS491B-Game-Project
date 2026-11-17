@@ -45,6 +45,7 @@ function logout_clear_local_session() {
     global.user_id               = "";
     global.auth_token            = "";   // older name used on em_branch; harmless to clear
     progress_clear();                    // SCRUM-29/47: forget coins/XP/items on this device (Supabase keeps them)
+    scr_streak_clear();                  // SCRUM-59: clear cached streak for this account
 }
 
 /// Final step: clear the session, leave a message for the login screen, go there.

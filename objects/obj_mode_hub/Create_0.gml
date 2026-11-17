@@ -49,3 +49,7 @@ message_text = "";
 // SCRUM-29: load this player's coins + owned items (once per login)
 progress_init();
 if (!global.progress_loaded) progress_load();
+
+// SCRUM-59: load this account's streak from Supabase on login.
+scr_streak_init();
+if (!global.streak_loaded) scr_streak_load();

@@ -224,5 +224,7 @@ if (_token == "") {
 // ---------- Level / XP / coins / streak ----------
 progress_init();
 if (!global.progress_loaded) progress_load();   // normally already loaded by the mode hub
+scr_streak_init();
+if (!global.streak_loaded) scr_streak_load();
 var _streak = scr_streak_get_data();
 profile_streak = _streak.count;

@@ -1,5 +1,8 @@
 //obj_controller - Async-HTTP
 
+// Keep handling streak requests across room changes; this controller persists.
+scr_streak_handle_async();
+
 var _request_id = async_load[? "id"];
 if (_request_id != global.pending_auth_request_id) exit;
 
@@ -31,6 +34,7 @@ if (global.pending_auth_mode == "auto_login") {
 		}
 		
         ds_map_destroy(_data);
+		scr_streak_clear();
         room_goto(rm_mode_hub);
 		
 		
