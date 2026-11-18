@@ -25,7 +25,7 @@ lesson_count   = array_length(lesson_names);
 current_lesson = 1; // start on C
 
 // ---------- Language tab layout ----------
-lang_button_width   = 70;
+lang_button_width   = 64;
 lang_button_height  = 14;
 lang_button_spacing = 4;
 lang_button_y       = 4;
@@ -99,13 +99,10 @@ lc_btn_x[1] = lc_btn_x[0] + lc_btn_w[0] + _lc_gap;
 
 // ---------- Pause menu ----------
 pause_open            = false;
-pause_settings_active = false;   // true while the settings menu is open FROM the pause menu
+pause_settings_active = false;   // true while the audio settings panel is open FROM the pause menu
 pause_selected        = 0;
 pause_hover           = -1;
 pause_message         = "";
-settings_was_open     = false;
-settings_prev_x       = 0;
-settings_prev_y       = 0;
 
 pause_labels = ["RESUME", "SETTINGS", "QUIT"];
 pause_btn_h   = 18;
@@ -117,12 +114,12 @@ for (var i = 0; i < array_length(pause_labels); i++) {
 }
 pause_btn_x = (room_width - pause_btn_w) / 2;
 
-// Small PAUSE button (bottom-left, mirrors BACK)
-pause_open_label = "PAUSE";
-pause_open_w = ui_button_width(pause_open_label);
-pause_open_h = 16;
-pause_open_x = 4;
-pause_open_y = room_height - pause_open_h - 4;
+// Pause button (top-left). The button is spr_pause's 16x16 canvas; its bars
+// (1px padding top/bottom) line up exactly with the language tab row.
+pause_open_w = sprite_get_width(spr_pause);
+pause_open_h = sprite_get_height(spr_pause);
+pause_open_x = 1;                   // bars start at x = 4, matching the old margin
+pause_open_y = lang_button_y - 1;   // bars span the same 14px as the tabs
 
 // ---------- Build the first lesson ----------
 scr_setup_lesson();

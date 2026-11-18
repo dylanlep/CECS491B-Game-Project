@@ -226,6 +226,8 @@ function progress_handle_async() {
 
     // --- Buy / earn / report: one answer from a server function ---
     if (!is_struct(_data)) return;
+    var _was_loaded = global.progress_loaded;   // only trust the "before" level if XP was already loaded
+    var _old_level  = progress_level();
     progress_apply(_data);
     global.progress_loaded = true;
 
@@ -242,4 +244,20 @@ function progress_handle_async() {
     } else if (_is_earn) {
         progress_earn_send_next();
     }
+	// Level up? Only for XP earned in play, confirmed by the server.
+    if (_is_earn && _was_loaded && progress_level() > _old_level) {
+        level_up_show(_old_level, progress_level());
+    }
+}
+
+/// Shows the LEVEL UP pop-up, or raises the level on one that's already open
+/// (a big reward can be sent in several requests and cross more than one level).
+function level_up_show(_old_level, _new_level) {
+    if (instance_exists(obj_level_up)) {
+        obj_level_up.new_level = max(obj_level_up.new_level, _new_level);
+        return;
+    }
+    var _popup = instance_create_depth(0, 0, -16000, obj_level_up);
+    _popup.old_level = _old_level;
+    _popup.new_level = _new_level;
 }

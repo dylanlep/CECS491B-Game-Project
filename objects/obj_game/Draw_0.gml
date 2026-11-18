@@ -52,16 +52,9 @@ if (level_complete_open) {
 }
 
 if (pause_settings_active) {
+    // Plain backdrop; obj_audio_settings draws its own panel on top
     draw_set_color(c_black);
     draw_rectangle(0, 0, room_width, room_height, false);
-    draw_set_halign(fa_center);
-    draw_set_valign(fa_middle);
-    draw_set_color(c_aqua);
-    draw_text(room_width/2, 30, "SETTINGS");
-    draw_set_color(c_gray);
-    draw_text(room_width/2, room_height - 14, "ESC = BACK");
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_top);
     draw_set_color(c_white);
     exit;
 }
@@ -122,21 +115,18 @@ if (account_open) {
     exit;
 }
 
+// ---------- Pause button, top-left ----------
+var _pause_hover = ui_mouse_over(pause_open_x, pause_open_y, pause_open_w, pause_open_h);
+draw_sprite_ext(spr_pause, 0, pause_open_x, pause_open_y,
+                1, 1, 0, _pause_hover ? c_yellow : c_white, 1);
+
+// ---------- XP / coins: one line in the bottom-left (BACK is bottom-right) ----------
+var _stats = "XP " + string(language_scores[current_lesson]);
+if (variable_global_exists("coins")) _stats += "  COINS " + string(global.coins);
 draw_set_halign(fa_left);
 draw_set_valign(fa_middle);
-draw_set_color(c_white);
-draw_sprite_stretched(spr_ui_box, 0, 4, 22, 44, 14);
-draw_set_color(c_black);
-draw_text(26, 29, "ACC");
-
-// XP / score display — own alignment, drawn first
-draw_set_halign(fa_right);
-draw_set_valign(fa_top);
-draw_set_color(c_white);
-draw_text(room_width - 4, 4, "XP: " + string(language_scores[current_lesson]));
-if (variable_global_exists("coins")) {
-    draw_text(room_width - 4, 20, "COINS: " + string(global.coins));
-}
+draw_set_color(c_yellow);
+draw_text(6, room_height - 12, _stats);
 
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
@@ -184,10 +174,6 @@ if (feedback_text != "") {
     draw_set_color(feedback_is_hint ? c_aqua : c_red);
     draw_text_ext(room_width/2, feedback_y, feedback_text, -1, room_width - 12);
 }
-
-// PAUSE button
-ui_button_draw(pause_open_x, pause_open_y, pause_open_w, pause_open_h, pause_open_label,
-               ui_mouse_over(pause_open_x, pause_open_y, pause_open_w, pause_open_h));
 
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);

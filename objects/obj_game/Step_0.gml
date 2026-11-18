@@ -1,14 +1,9 @@
 /// obj_game - Step Event
 
-// ---------- Track settings menu (pause -> settings -> back) ----------
-var _settings_open    = instance_exists(obj_settings_menu) && obj_settings_menu.is_open;
-var _settings_blocked = settings_was_open || _settings_open;   // also covers the frame it closes
-settings_was_open     = _settings_open;
-
-// Settings was opened from pause: wait for it to close, then return to pause
+// ---------- Audio settings opened from pause ----------
+// obj_audio_settings handles (and clears) all input itself; when it closes, go back to pause.
 if (pause_settings_active) {
-    if (!_settings_open) {
-        with (obj_settings_menu) { x = other.settings_prev_x; y = other.settings_prev_y; }
+    if (!instance_exists(obj_audio_settings)) {
         pause_settings_active = false;
         pause_open     = true;
         pause_selected = 1;
@@ -59,24 +54,12 @@ if (pause_open) {
             pause_open = false;
             pause_message = "";
             break;
-        case 1: // SETTINGS
-            if (instance_exists(obj_settings_menu)) {
-                with (obj_settings_menu) {
-                    other.settings_prev_x = x;
-                    other.settings_prev_y = y;
-                    x = 48; y = 60;              // centered while paused
-                    is_open = true;
-                    global.menu_focus = "language";
-                    menu_level = 0;
-                    pos = 0;
-                    open_guard = 1;              // ignore the click/key that opened it
-                }
-                pause_open = false;
-                pause_settings_active = true;
-                pause_message = "";
-            } else {
-                pause_message = "SETTINGS UNAVAILABLE";
-            }
+        case 1: // SETTINGS -> same audio panel as the title screen
+            sfx_play(snd_click);
+            instance_create_depth(0, 0, -10000, obj_audio_settings);
+            pause_open = false;
+            pause_settings_active = true;
+            pause_message = "";
             break;
         case 2: // QUIT
             room_goto(rm_mode_hub);
@@ -186,28 +169,16 @@ if (account_open) {
     exit;
 }
 
-// ---------- Open pause (ESC or PAUSE button) ----------
+// ---------- Open pause (ESC or cog button) ----------
 var _any_drag = false;
 with (obj_block) { if (dragging) _any_drag = true; }
-if (!_any_drag && !_settings_blocked
+if (!_any_drag
 && (keyboard_check_pressed(vk_escape)
     || (mouse_check_button_pressed(mb_left)
         && ui_mouse_over(pause_open_x, pause_open_y, pause_open_w, pause_open_h)))) {
     pause_open     = true;
     pause_selected = 0;
     pause_message  = "";
-    exit;
-}
-
-if (mouse_check_button_pressed(mb_left)
-&& mouse_x >= 4 && mouse_x <= 48 && mouse_y >= 22 && mouse_y <= 36) {
-    account_open = true;
-    account_active_field = 0;
-    account_email_input = "";
-    account_password_input = "";
-    account_message = "";
-    account_busy = false;
-    account_pending_email_change = false;
     exit;
 }
 
