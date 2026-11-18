@@ -15,14 +15,19 @@ account_pending_email_change = false;
 // ---------- Lesson data for each language ----------
 lesson_tokens[0] = ["print", "(", "\"Hello, world!\"", ")", ";"];              // Python
 lesson_tokens[1] = ["printf", "(", "\"Hello, world!\"", ")", ";"];             // C
-lesson_tokens[2] = ["System.out.println", "(", "\"Hello, world!\"", ")", ";"]; // Java
 
 lesson_names[0] = "Python";
 lesson_names[1] = "C";
-lesson_names[2] = "Java";
+lesson_names[2] = "C++";
 
 lesson_count   = array_length(lesson_names);
-current_lesson = 0; // start on Python 
+if (!variable_global_exists("lesson_scores")) {
+    global.python_level = 0;
+    global.lesson_scores = [0, 0, 0];
+    global.python_map_feedback = "";
+    global.python_map_output = "";
+}
+current_lesson = 0;
 
 // ---------- Language tab layout ----------
 lang_button_width   = 70;
@@ -50,9 +55,7 @@ slot_area_y_start = lang_button_y + lang_button_height + 8;
 
 
 // ---------- Score (XP), one per language, like Duolingo ----------
-language_scores[0] = 0;
-language_scores[1] = 0;
-language_scores[2] = 0;
+language_scores = global.lesson_scores;
 
 base_xp          = 10; // XP for a perfect first-try correct answer
 mistake_penalty  = 2;  // XP lost per wrong Check attempt before getting it right
@@ -65,7 +68,17 @@ mistake_count = 0; // wrong Check presses on the CURRENT round only
 
 // ---------- Python World 1 levels ----------
 global.python_levels = scr_python_levels();
-current_level = 0;
+current_level = global.python_level;
+if (!variable_global_exists("python_completed")) {
+    global.python_completed = array_create(array_length(global.python_levels), false);
+}
+
+map_button_width = 140;
+map_button_height = 22;
+map_button_x = (room_width - map_button_width) / 2;
+map_button_y = 56;
+map_button_stride = 28;
+map_placeholder_count = 5; // Planned levels for C and C++.
 
 // Level-mode drawing state (scr_setup_level / scr_setup_lesson fill these in)
 fixed_n     = 0;
@@ -73,5 +86,14 @@ hint_text   = "";
 level_title = "";
 
 
-// ---------- Build the first lesson ----------
-scr_build_board();
+feedback_text = "";
+feedback_timer = 0;
+held_block = noone;
+
+// Gameplay feedback: remember the camera position while a wrong answer shakes it.
+shake_camera = -1;
+shake_origin_x = 0;
+shake_origin_y = 0;
+shake_remaining_us = 0;
+
+if (room != rm_python_map) scr_build_board();

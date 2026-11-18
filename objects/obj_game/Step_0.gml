@@ -1,3 +1,5 @@
+scr_update_gameplay_shake();
+
 if (instance_exists(obj_friends)) exit; // freeze while the friends panel is open
 
 if (keyboard_check_pressed(ord("F")) && !instance_exists(obj_friends)) {
@@ -127,7 +129,8 @@ if (feedback_timer > 0) {
 if (mouse_check_button_pressed(mb_left)) {
 
     // --- Language tabs ---
-    for (var i = 0; i < lesson_count; i++) {
+    var show_language_tabs = room == rm_python_map;
+    for (var i = 0; show_language_tabs && i < lesson_count; i++) {
         var bx1 = lang_button_x[i];
         var by1 = lang_button_y;
         var bx2 = bx1 + lang_button_width;
@@ -135,12 +138,28 @@ if (mouse_check_button_pressed(mb_left)) {
 
         if (mouse_x >= bx1 && mouse_x <= bx2 && mouse_y >= by1 && mouse_y <= by2) {
             current_lesson = i;
-            scr_build_board();
+            exit;
         }
     }
 
+    if (room == rm_python_map) {
+        // C and C++ show placeholders until their levels are built.
+        if (current_lesson != 0) exit;
+
+        for (var i = 0; i < array_length(global.python_levels); i++) {
+            var button_y = map_button_y + i * map_button_stride;
+            if (point_in_rectangle(mouse_x, mouse_y, map_button_x, button_y,
+                map_button_x + map_button_width, button_y + map_button_height)) {
+                global.python_level = i;
+                room_goto(rm_lesson);
+                break;
+            }
+        }
+        exit;
+    }
+
     // --- Check button ---
-	if (mouse_x >= check_btn_x1 && mouse_x <= check_btn_x2
+	if (held_block == noone && mouse_x >= check_btn_x1 && mouse_x <= check_btn_x2
 	&& mouse_y >= check_btn_y1 && mouse_y <= check_btn_y2) {
 
 	    var all_filled  = true;
@@ -159,18 +178,31 @@ if (mouse_check_button_pressed(mb_left)) {
 	        feedback_timer = 90;
 
 	    } else if (all_correct) {
+	        scr_gameplay_feedback(GameplayFeedback.CorrectAnswer);
 	        var xp_earned = max(min_xp, base_xp - (mistake_count * mistake_penalty));
 	        language_scores[current_lesson] += xp_earned;
 
 	        var msg = "Correct! +" + string(xp_earned) + " XP";
 
-	        if (current_lesson == 0) {
-	            current_level += 1;
-	            if (current_level >= array_length(global.python_levels)) {
-	                current_level = 0;
-	                msg = "WORLD 1 CLEAR! +" + string(xp_earned) + " XP";
-	            }
-	        }
+            global.lesson_scores[current_lesson] = language_scores[current_lesson];
+            if (current_lesson == 0) {
+                global.python_completed[current_level] = true;
+                var world_complete = true;
+                for (var i = 0; i < array_length(global.python_completed); i++) {
+                    if (!global.python_completed[i]) {
+                        world_complete = false;
+                        break;
+                    }
+                }
+                var level_data = global.python_levels[current_level];
+                global.python_map_feedback = world_complete
+                    ? "World 1 complete! +" + string(xp_earned) + " XP"
+                    : msg;
+                global.python_map_output = variable_struct_exists(level_data, "output")
+                    ? "Output: " + level_data.output : "";
+                room_goto(rm_python_map);
+                exit;
+            }
 
 	        scr_build_board();
 
@@ -180,6 +212,7 @@ if (mouse_check_button_pressed(mb_left)) {
 
 	    } else {
 	        mistake_count += 1;
+	        scr_gameplay_feedback(GameplayFeedback.WrongAnswer);
 	        feedback_text  = "Try again.";
 	        feedback_timer = 90;
 	    }

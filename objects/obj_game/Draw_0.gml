@@ -50,7 +50,8 @@ draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 
 // Language tabs
-for (var i = 0; i < lesson_count; i++) {
+var show_language_tabs = room == rm_python_map;
+for (var i = 0; show_language_tabs && i < lesson_count; i++) {
     var bx1 = lang_button_x[i];
     var by1 = lang_button_y;
     var bx2 = bx1 + lang_button_width;
@@ -66,6 +67,34 @@ for (var i = 0; i < lesson_count; i++) {
 
 
 
+
+if (room == rm_python_map) {
+    draw_set_color(c_white);
+    var python_selected = current_lesson == 0;
+    var map_level_count = python_selected ? array_length(global.python_levels) : map_placeholder_count;
+    draw_text(room_width / 2, 38, string_upper(lesson_names[current_lesson]) + " WORLD 1");
+    for (var i = 0; i < map_level_count; i++) {
+        var button_y = map_button_y + i * map_button_stride;
+        draw_sprite_stretched(spr_ui_box, 0, map_button_x, button_y,
+            map_button_width, map_button_height);
+        draw_set_color(c_black);
+        var button_label = "LEVEL " + string(i + 1);
+        if (!python_selected) {
+            button_label += " - TBD";
+        } else if (global.python_completed[i]) {
+            button_label += " - DONE";
+        }
+        draw_text(room_width / 2, button_y + map_button_height / 2, button_label);
+    }
+    if (python_selected) {
+        draw_set_color(c_white);
+        draw_text(room_width / 2, 201, global.python_map_feedback);
+        draw_text(room_width / 2, 218, global.python_map_output);
+    }
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    exit;
+}
 
 // ---------- Level title, hint and fixed code text (Python levels) ----------
 if (hint_text != "") {

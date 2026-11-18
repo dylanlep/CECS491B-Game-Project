@@ -9,6 +9,7 @@ function scr_setup_level() {
 
     draw_set_font(fnt_pixel); // string_width below needs the right font
 
+    var level_row_height = 22;
     var lvl = global.python_levels[current_level];
     level_title = lvl.title;
     hint_text   = lvl.hint;
@@ -51,17 +52,17 @@ function scr_setup_level() {
             } else {
                 fixed_text[fixed_n] = part;
                 fixed_x[fixed_n]    = sx;
-                fixed_y[fixed_n]    = sy + row_height / 2;
+                fixed_y[fixed_n]    = sy + level_row_height / 2;
 
                 fixed_n += 1;
                 sx += string_width(part) + chip_spacing;
             }
         }
 
-        sy += row_height + row_spacing;
+        sy += level_row_height + row_spacing;
     }
 
-    slot_height = row_height;
+    slot_height = level_row_height;
 
     // =====================================================================
     // PART 2: shuffle the blocks and lay out the bank (wraps to new rows)
@@ -96,14 +97,14 @@ function scr_setup_level() {
 
         if (bx + w > room_width - side_margin) {
             bx = side_margin;
-            by += row_height + row_spacing;
+            by += level_row_height + row_spacing;
         }
 
         var inst = instance_create_layer(bx, by, "Instances", obj_block);
         inst.word_text      = word;
         inst.correct_index  = -1; // not used in level mode, checking is by text
         inst.block_width    = w;
-        inst.block_height   = row_height;
+        inst.block_height   = level_row_height;
         inst.home_x         = bx;
         inst.home_y         = by;
         inst.current_slot   = -1;
@@ -113,7 +114,7 @@ function scr_setup_level() {
         bx += w + chip_spacing;
     }
 
-    var bank_bottom = by + row_height;
+    var bank_bottom = by + level_row_height;
 
     // =====================================================================
     // PART 3: Check button and feedback below everything

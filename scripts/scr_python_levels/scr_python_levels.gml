@@ -24,6 +24,35 @@ function scr_python_levels() {
                       ["print(", "@", ")"] ],
             answer: [ "name", "name" ],
             blocks: [ "name", "name", "Name", "\"name\"" ]
+        },
+        {
+            title: "MAKE Z = 1",
+            hint: "Use 2 and 3 for x and y. Choose + or -.",
+            mode: "fill",
+            lines: [ ["x = ", "@"],
+                     ["y = ", "@"],
+                     ["z = x ", "@", " y"],
+                     ["print(z)"] ],
+            answer: [ "3", "2", "-" ],
+            blocks: [ "2", "3", "+", "-" ],
+            output: "1"
+        },
+        {
+            title: "STORE A NUMBER",
+            hint: "Set age to the number 12. Quotes turn it into text.",
+            mode: "fill",
+            lines: [ ["age = ", "@"] ],
+            answer: [ "12" ],
+            blocks: [ "12", "\"12\"" ]
+        },
+        {
+            title: "BUILD A MESSAGE",
+            hint: "Use str() to turn a number into text before joining it.",
+            mode: "fill",
+            lines: [ ["age = 12"], ["print(\"Age: \" + ", "@", ")"] ],
+            answer: [ "str(age)" ],
+            blocks: [ "str(age)", "age", "\"age\"", "int(age)" ],
+            output: "Age: 12"
         }
     ];
 }

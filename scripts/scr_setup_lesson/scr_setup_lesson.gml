@@ -13,7 +13,7 @@ function scr_setup_lesson() {
 
 	draw_set_font(fnt_pixel); // needed here so string_width() below is accurate
 	
-	// Clear level-mode leftovers so the Draw event doesn't show them on C / Java
+	// Clear Python level text before drawing the legacy lesson.
 	fixed_n    = 0;
 	hint_text  = "";
 	level_title = "";

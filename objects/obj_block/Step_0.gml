@@ -2,21 +2,29 @@ if (instance_exists(obj_friends)) exit;
 
 /// obj_block - Step Event
 
-if (instance_exists(obj_game) && obj_game.account_open) exit;
+if (!instance_exists(obj_game) || obj_game.account_open) exit;
 
 var mx = mouse_x;
 var my = mouse_y;
 
 var over_me = (mx >= x && mx <= x + block_width && my >= y && my <= y + block_height);
 
-is_hovered = over_me && !dragging;
+is_hovered = over_me && obj_game.held_block == noone;
 var target_scale = is_hovered ? hover_scale : 1;
 display_scale += (target_scale - display_scale) * hover_ease;
 
-if (!dragging && over_me && mouse_check_button_pressed(mb_left)) {
+if (obj_game.held_block == noone && over_me && mouse_check_button_pressed(mb_left)) {
     dragging   = true;
+    obj_game.held_block = id;
+    with (obj_game) {
+        scr_gameplay_feedback(GameplayFeedback.BlockPickup);
+    }
     drag_off_x = mx - x;
     drag_off_y = my - y;
+    pickup_x = mx;
+    pickup_y = my;
+    drag_moved = false;
+    click_carry = false;
 
     if (current_slot != -1) {
         obj_game.slot_occupant[current_slot] = noone;
@@ -30,8 +38,19 @@ if (dragging) {
     x = mx - drag_off_x;
     y = my - drag_off_y;
 
+    if (point_distance(pickup_x, pickup_y, mx, my) >= 4) {
+        drag_moved = true;
+    }
+
     if (mouse_check_button_released(mb_left)) {
+        // A click without a drag keeps the block attached until the next click.
+        if (!click_carry && !drag_moved) {
+            click_carry = true;
+            exit;
+        }
+
         dragging = false;
+        obj_game.held_block = noone;
         depth = 0;
 
         var snapped = false;

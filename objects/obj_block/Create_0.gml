@@ -14,6 +14,10 @@ base_color     = c_white;      // overwritten right after spawn
 dragging   = false;
 drag_off_x = 0;
 drag_off_y = 0;
+pickup_x = 0;
+pickup_y = 0;
+drag_moved = false;
+click_carry = false;
 
 // ---------- Hover bounce ----------
 is_hovered    = false;
