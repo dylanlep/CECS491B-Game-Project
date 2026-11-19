@@ -3,10 +3,10 @@
 
 if (!visible) exit;
 
-// Lesson overlays own the input; the menu only runs there when opened from PAUSE
-if (room == rm_lesson && instance_exists(obj_game)) {
-    if (obj_game.pause_open || obj_game.level_complete_open || obj_game.account_open) exit;
-    depth = obj_game.pause_settings_active ? -10000 : 0;   // draw above the pause backdrop
+// Hidden and disabled during lessons: the pause button replaces it there
+if (room == rm_lesson) {
+    is_open = false;
+    exit;
 }
 
 var up_key = 0;
