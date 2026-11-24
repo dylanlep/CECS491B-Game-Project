@@ -5,8 +5,9 @@
 
 title_text = "CHOOSE A MODE";
 
-var _modes  = ["STORY", "PRACTICE", "CHALLENGE", "QUIZ", "BOSS"];
+var _modes  = ["STORY", "PRACTICE", "CHALLENGE", "QUIZ", "BOSS", "LEADERBOARD"];
 var _extras = ["SHOP", "FRIENDS", "PROFILE"];   // SCRUM-38/39: FRIENDS
+
 
 // Every button gets its own label, x, y and width, stored in matching lists.
 btn_label = [];
@@ -53,3 +54,5 @@ if (!global.progress_loaded) progress_load();
 // SCRUM-59: load this account's streak from Supabase on login.
 scr_streak_init();
 if (!global.streak_loaded) scr_streak_load();
+var _streak = scr_streak_get_data();
+profile_streak = _streak.count;
