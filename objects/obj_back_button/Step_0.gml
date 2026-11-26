@@ -1,15 +1,18 @@
 /// obj_back_button - Step
 
-// Ignore clicks while an overlay (Edit Account / Level Complete) is open
-if (instance_exists(obj_game) && (obj_game.account_open || obj_game.level_complete_open
-    || obj_game.pause_open || obj_game.pause_settings_active)) {
+// Ignore clicks while the lesson's Edit Account panel is open
+if (instance_exists(obj_game) && obj_game.account_open) {
     hovered = false;
     exit;
 }
 
 hovered = ui_mouse_over(btn_x, btn_y, btn_width, btn_height);
+
+
+//confirm user wants to leave
 if (hovered && mouse_check_button_pressed(mb_left)) {
-    // Coins are now awarded the moment a level is completed (obj_game),
+	// Coins are now awarded the moment a level is completed (obj_game),
     // so there's nothing to bank here anymore.
-    room_goto(rm_mode_hub);
+	
+	back_confirm_id = show_question_async("Really want to leave this lesson?");
 }
